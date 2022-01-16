@@ -2,4 +2,4 @@ baseURL = "https://www.the-sprawl.blog/"
 languageCode = "de-de"
 title = "the Sprawl"
 theme = "PaperMod"
-publishdir = "/var/www/www.the-sprawl.blog/public"
+
