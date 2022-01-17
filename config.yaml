@@ -2,6 +2,7 @@ baseURL: "https://www.the-sprawl.blog/"
 title: The Sprawl
 paginate: 5
 theme: PaperMod
+languageCode: "en-us"
 
 enableRobotsTXT: true
 buildDrafts: false
