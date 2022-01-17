@@ -14,11 +14,7 @@ params:
     homeInfoParams:
         Title: Hi there wave
         Content: Can be Info, links, about...
-
-    socialIcons: # optional
-        - name: "twitter"
-            url: "https://twitter.com/TabTwo"
-            
+        
 outputs:
     home:
         - HTML
