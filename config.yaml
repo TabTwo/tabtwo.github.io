@@ -13,6 +13,9 @@ description: "TODO description"
 params:
     ShowShareButtons: true
     ShowReadingTime: true
+    socialIcons:
+    - name: "twitter"
+        url: "https://twitter.com/tabtwo"
     
         
 outputs:
