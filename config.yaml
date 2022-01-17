@@ -1,10 +1,6 @@
 baseURL: "https://www.the-sprawl.blog/"
 languageCode: "en-us"
 theme: "PaperMod"
-author:
-  TabTwo:
-    name: "Ralph J.Mayer"
-    twitter: "tabtwo"
 
 title: "the Sprawl"
 description: "TODO description"
@@ -13,6 +9,14 @@ description: "TODO description"
 params:
     ShowShareButtons: true
     ShowReadingTime: true
+
+socialIcons:
+    - name: twitter
+      url: "https://twitter.com/"
+    - name: stackoverflow
+      url: "https://stackoverflow.com"
+    - name: github
+      url: "https://github.com/"
         
 outputs:
     home:
