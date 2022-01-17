@@ -1,6 +1,6 @@
 baseURL: "https://www.the-sprawl.blog/"
 languageCode: "en-us"
-theme: "papermod"
+theme: "PaperMod"
 author:
   TabTwo:
     name: "Ralph J.Mayer"
