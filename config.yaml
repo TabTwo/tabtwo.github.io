@@ -26,3 +26,17 @@ outputs:
         - HTML
         - RSS
         - JSON # is necessary
+menu:
+  main:
+    - identifier: categories
+      name: categories
+      url: /categories/
+      weight: 10
+    - identifier: tags
+      name: tags
+      url: /tags/
+      weight: 20
+    - identifier: Search
+      name: search
+      url: /search/
+      weight: 30
