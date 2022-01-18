@@ -96,6 +96,10 @@ menu:
       name: search
       url: /search/
       weight: 30
+    - identifier: Archives
+      name: archives
+      url: /archives/
+      weight: 40
 
 outputs:
     home:
