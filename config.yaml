@@ -14,7 +14,7 @@ minify:
   minifyOutput: true
 
 params:
-  env: production # to enable google analytics, opengraph, twitter-cards and schema.
+  #env: production # to enable google analytics, opengraph, twitter-cards and schema.
   title: The Sprawl
   description: "Somewhere, out there"
   keywords: [Blog, Portfolio]
@@ -23,7 +23,6 @@ params:
   DateFormat: "2 January 2006"
   defaultTheme: auto # dark, light
   disableThemeToggle: false
-
   ShowReadingTime: true
   ShowShareButtons: true
   ShowPostNavLinks: true
@@ -36,6 +35,7 @@ params:
   hideSummary: false
   showtoc: false
   tocopen: false
+  ShowFullTextinRSS: true
 
   assets:
     # disableHLJS: true # to disable highlight.js
