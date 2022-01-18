@@ -14,7 +14,7 @@ minify:
   minifyOutput: true
 
 params:
-  #env: production # to enable google analytics, opengraph, twitter-cards and schema.
+  env: production # to enable google analytics, opengraph, twitter-cards and schema.
   title: The Sprawl
   description: "Somewhere, out there"
   keywords: [Blog, Portfolio]
@@ -47,7 +47,7 @@ params:
     #safari_pinned_tab: "<link / abs url>"
 
   label:
-    text: "Home"
+    text: "The Sprawl"
     #icon: /apple-touch-icon.png
     #iconHeight: 35
 
@@ -106,3 +106,13 @@ outputs:
         - HTML
         - RSS
         - JSON # is necessary
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    codeFences: true
+    guessSyntax: true
+    lineNos: false
+    style: monokai
