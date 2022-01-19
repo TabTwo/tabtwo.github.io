@@ -3,14 +3,14 @@ title: "Neue Blog Engine"
 date: 2022-01-17T12:15:47+01:00
 # weight: 1
 # aliases: ["/first"]
-tags: ["changeme"]
+tags: ["blog"]
 author: "TabTwo"
 showToc: true
 TocOpen: false
 draft: false
 hidemeta: false
 comments: false
-description: "Desc Text."
+#description: "Desc Text."
 disableShare: false
 disableHLJS: false
 hideSummary: false
