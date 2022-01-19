@@ -10,7 +10,7 @@ TocOpen: false
 draft: false
 hidemeta: false
 comments: false
-description: "Desc Text."
+#description: "Desc Text."
 disableShare: false
 disableHLJS: false
 hideSummary: false
