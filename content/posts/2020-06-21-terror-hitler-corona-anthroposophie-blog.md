@@ -7,10 +7,10 @@ tags: ["changeme"]
 author: "TabTwo"
 showToc: true
 TocOpen: false
-draft: false
+draft: true
 hidemeta: false
 comments: false
-description: "Desc Text."
+#description: "Desc Text."
 disableShare: false
 disableHLJS: false
 hideSummary: false
