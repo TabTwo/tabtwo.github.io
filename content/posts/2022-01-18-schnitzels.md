@@ -1,6 +1,6 @@
 ---
-title: "changeme"
-date: 2022-01-01T11:30:03+00:00
+title: "SchnitzelS Januar 2022"
+date: 2022-01-18T11:30:03+00:00
 # weight: 1
 # aliases: ["/first"]
 tags: ["changeme"]
@@ -26,3 +26,4 @@ cover:
     hidden: false # only hide on current single page
 ---
 
+![](/uploads/2022/01/schnitzels.jpg)
