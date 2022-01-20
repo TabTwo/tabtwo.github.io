@@ -3,7 +3,7 @@ title: "SchnitzelS Januar 2022"
 date: 2022-01-18T11:30:03+00:00
 # weight: 1
 # aliases: ["/first"]
-tags: ["changeme"]
+tags: ["SchnitzelS"]
 author: "TabTwo"
 showToc: true
 TocOpen: false
@@ -26,4 +26,10 @@ cover:
     hidden: false # only hide on current single page
 ---
 
+Immer noch Corona, also wieder als Online-Event.
+
+Das sieht dann so aus
+![](/uploads/2022/01/schnitzels2.jpg)
+    
+Zu Essen gabs ein Cotoletta Bolognese vom [Bistro Castro](http://www.bistro-castro.de) in Neuenstadt.
 ![](/uploads/2022/01/schnitzels.jpg)
