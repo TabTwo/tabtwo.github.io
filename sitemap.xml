@@ -2,19 +2,25 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://www.the-sprawl.blog/tags/changeme/</loc>
+    <lastmod>2022-01-18T11:30:03+00:00</lastmod>
+  </url><url>
+    <loc>https://www.the-sprawl.blog/posts/</loc>
+    <lastmod>2022-01-18T11:30:03+00:00</lastmod>
+  </url><url>
+    <loc>https://www.the-sprawl.blog/posts/2022-01-18-schnitzels/</loc>
+    <lastmod>2022-01-18T11:30:03+00:00</lastmod>
+  </url><url>
+    <loc>https://www.the-sprawl.blog/tags/</loc>
+    <lastmod>2022-01-18T11:30:03+00:00</lastmod>
+  </url><url>
+    <loc>https://www.the-sprawl.blog/</loc>
+    <lastmod>2022-01-18T11:30:03+00:00</lastmod>
+  </url><url>
     <loc>https://www.the-sprawl.blog/tags/blog/</loc>
     <lastmod>2022-01-17T12:15:47+01:00</lastmod>
   </url><url>
     <loc>https://www.the-sprawl.blog/posts/2022-01-17-neue-engine/</loc>
-    <lastmod>2022-01-17T12:15:47+01:00</lastmod>
-  </url><url>
-    <loc>https://www.the-sprawl.blog/posts/</loc>
-    <lastmod>2022-01-17T12:15:47+01:00</lastmod>
-  </url><url>
-    <loc>https://www.the-sprawl.blog/tags/</loc>
-    <lastmod>2022-01-17T12:15:47+01:00</lastmod>
-  </url><url>
-    <loc>https://www.the-sprawl.blog/</loc>
     <lastmod>2022-01-17T12:15:47+01:00</lastmod>
   </url><url>
     <loc>https://www.the-sprawl.blog/tags/musik/</loc>
@@ -22,9 +28,6 @@
   </url><url>
     <loc>https://www.the-sprawl.blog/posts/2021-02-06-sweet-as-the-punch/</loc>
     <lastmod>2021-02-06T22:17:17+01:00</lastmod>
-  </url><url>
-    <loc>https://www.the-sprawl.blog/tags/changeme/</loc>
-    <lastmod>2021-01-06T22:17:38+01:00</lastmod>
   </url><url>
     <loc>https://www.the-sprawl.blog/posts/2021-01-06-xignal-mousetrap/</loc>
     <lastmod>2021-01-06T22:17:38+01:00</lastmod>
