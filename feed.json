@@ -7,10 +7,58 @@
 	"items": [
 		
 			{
+				"id": "http://tabtwo.micro.blog/2025/01/29/mastodon-downtime.html",
+				"title": "Mastodon Downtime",
+				"content_html": "<p>Sobald man Mastodon etwas intensiver benutzt geht da auf meiner kleinen privaten Instanz massiv der Platzbearf hoch. über 60Gb für nen einzeknen User ist schon etwas heftig.\nSei&rsquo;s drum. Das war dann gleich ne gute Gelegenheit das alles auf einen neuen Server umzuziehen.\nDank der hervoragenden Backup-Funktion von <a href=\"https://yunohost.org/\">yunohost.org</a> hat der Umzug sehr gut funktioniert.\nEin paar Nacharbeiten sind noch am Laufen, der DNS muss an ein paar Stellen noch rausaltern, aber sonst war das recht schmerzfrei.</p>\n",
+				"content_text": "Sobald man Mastodon etwas intensiver benutzt geht da auf meiner kleinen privaten Instanz massiv der Platzbearf hoch. über 60Gb für nen einzeknen User ist schon etwas heftig.\r\nSei's drum. Das war dann gleich ne gute Gelegenheit das alles auf einen neuen Server umzuziehen.\r\nDank der hervoragenden Backup-Funktion von [yunohost.org](https://yunohost.org/) hat der Umzug sehr gut funktioniert.\r\nEin paar Nacharbeiten sind noch am Laufen, der DNS muss an ein paar Stellen noch rausaltern, aber sonst war das recht schmerzfrei.\n",
+				"date_published": "2025-01-29T13:11:08+01:00",
+				"url": "https://www.the-sprawl.blog/2025/01/29/mastodon-downtime.html"
+			},
+			{
+				"id": "http://tabtwo.micro.blog/2025/01/26/beim-nachputzen-der-kinderzhne-mach.html",
+				
+				"content_html": "<p>Beim Nachputzen der Kinderzähne „mach mal Aaaaaa damit ich da putzen kann!“\nUnd jedes Mal kräht ein kleines Mainzelmännchen in meinem Kopf: Aaaaaabendschau</p>\n",
+				"content_text": "Beim Nachputzen der Kinderzähne „mach mal Aaaaaa damit ich da putzen kann!“ \nUnd jedes Mal kräht ein kleines Mainzelmännchen in meinem Kopf: Aaaaaabendschau\n",
+				"date_published": "2025-01-26T15:07:06+01:00",
+				"url": "https://www.the-sprawl.blog/2025/01/26/beim-nachputzen-der-kinderzhne-mach.html"
+			},
+			{
+				"id": "http://tabtwo.micro.blog/2025/01/25/wages-ai.html",
+				
+				"content_html": "<p>Wages &amp; AI</p>\n<!-- raw HTML omitted -->\n",
+				"content_text": "Wages & AI\n\n<img src=\"uploads/2025/8c41d32ebca24a0cac018dcbf635f577.jpg\" width=\"600\" height=\"487\" alt=\"\">\n",
+				"date_published": "2025-01-25T23:27:47+01:00",
+				"url": "https://www.the-sprawl.blog/2025/01/25/wages-ai.html"
+			},
+			{
+				"id": "http://tabtwo.micro.blog/2025/01/24/das-thema-konzerte-in-stuttgart.html",
+				
+				"content_html": "<p>Das Thema Konzerte in Stuttgart ist echt ein Trauerspiel. Könnte ich bitte Röhre, RoFa und Co. zurückhaben</p>\n<!-- raw HTML omitted -->\n",
+				"content_text": "Das Thema Konzerte in Stuttgart ist echt ein Trauerspiel. Könnte ich bitte Röhre, RoFa und Co. zurückhaben \n\n<img src=\"uploads/2025/9e06ee5287c74cc9b30d96c1098fd9ef.png\" width=\"277\" height=\"600\" alt=\"\">\n",
+				"date_published": "2025-01-24T11:31:30+01:00",
+				"url": "https://www.the-sprawl.blog/2025/01/24/das-thema-konzerte-in-stuttgart.html"
+			},
+			{
+				"id": "http://tabtwo.micro.blog/2025/01/24/brzrkr-bloodlines.html",
+				
+				"content_html": "<p>BRZRKR Bloodlines</p>\n<!-- raw HTML omitted -->\n",
+				"content_text": "BRZRKR Bloodlines \n\n<img src=\"uploads/2025/2da48d5945c04b7393ab0408df59268e.jpg\" width=\"450\" height=\"600\" alt=\"\">\n",
+				"date_published": "2025-01-24T09:51:56+01:00",
+				"url": "https://www.the-sprawl.blog/2025/01/24/brzrkr-bloodlines.html"
+			},
+			{
+				"id": "http://tabtwo.micro.blog/2025/01/22/diverse-reddit-communities-stimmen-gerade.html",
+				
+				"content_html": "<p>Diverse Reddit Communities stimmen gerade darüber ab, keine Links mehr zu Twitter und Facebook mehr zu posten. Allenfalls nur noch Screenshots des Contents.\nDas ist ne gute Policy und eben auch schwer durch Reddit zu verhindern im Gegensatz zu z.B. dem Streik der Mods.\nWiderspricht im Grunde allem was ich am offenen Web liebe. Aber ist wahrscheinlich die einzige Achillessehne dieser Dienste wenn dort keine Aufmerksamkeit mehr ankommt.</p>\n",
+				"content_text": "Diverse Reddit Communities stimmen gerade darüber ab, keine Links mehr zu Twitter und Facebook mehr zu posten. Allenfalls nur noch Screenshots des Contents. \nDas ist ne gute Policy und eben auch schwer durch Reddit zu verhindern im Gegensatz zu z.B. dem Streik der Mods. \nWiderspricht im Grunde allem was ich am offenen Web liebe. Aber ist wahrscheinlich die einzige Achillessehne dieser Dienste wenn dort keine Aufmerksamkeit mehr ankommt. \n",
+				"date_published": "2025-01-22T21:07:46+01:00",
+				"url": "https://www.the-sprawl.blog/2025/01/22/diverse-reddit-communities-stimmen-gerade.html"
+			},
+			{
 				"id": "http://tabtwo.micro.blog/2025/01/21/breaking-bad-x-bug.html",
 				"title": "Breaking Bad  4x09 \"Bug\"",
 				"content_html": "<p><!-- raw HTML omitted -->Skyler's past mistakes come back to haunt her. Gus takes action to thwart his rivals. Jesse seeks Walt's help, with mixed results.</p>\n",
-				"content_text": "<img src=\"uploads/2025/e935990490.jpg\" />Skyler&#39;s past mistakes come back to haunt her. Gus takes action to thwart his rivals. Jesse seeks Walt&#39;s help, with mixed results.\n",
+				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/e935990490.jpg\" />Skyler&#39;s past mistakes come back to haunt her. Gus takes action to thwart his rivals. Jesse seeks Walt&#39;s help, with mixed results.\n",
 				"date_published": "2025-01-21T20:20:29+01:00",
 				"url": "https://www.the-sprawl.blog/2025/01/21/breaking-bad-x-bug.html"
 			},
@@ -18,7 +66,7 @@
 				"id": "http://tabtwo.micro.blog/2025/01/21/filzen.html",
 				
 				"content_html": "<p>Filzen</p>\n<!-- raw HTML omitted -->\n",
-				"content_text": "Filzen\n\n<img src=\"uploads/2025/4fea1f952b7b4faab4dfc045e0630743.jpg\" width=\"450\" height=\"600\" alt=\"\">\n",
+				"content_text": "Filzen\n\n<img src=\"https://cdn.uploads.micro.blog/63514/2025/4fea1f952b7b4faab4dfc045e0630743.jpg\" width=\"450\" height=\"600\" alt=\"\">\n",
 				"date_published": "2025-01-21T19:39:26+01:00",
 				"url": "https://www.the-sprawl.blog/2025/01/21/filzen.html"
 			},
@@ -26,7 +74,7 @@
 				"id": "http://tabtwo.micro.blog/2025/01/21/artgerechte-haltung.html",
 				
 				"content_html": "<!-- raw HTML omitted -->\n",
-				"content_text": "<img id=\"rss_item_787378158249042015\" src=\"https://www.the-sprawl.blog/uploads/2025/yhx78kynrkjuwjwtjfd8m3qf7yqtxcxhtcosrymn.jpg\" alt=\"\">\n\t\t\t<p style=\"padding:10px;\">Artgerechte Haltung</p>\n",
+				"content_text": "<img id=\"rss_item_787378158249042015\" src=\"https://cdn.uploads.micro.blog/63514/2025/yhx78kynrkjuwjwtjfd8m3qf7yqtxcxhtcosrymn.jpg\" alt=\"\">\n\t\t\t<p style=\"padding:10px;\">Artgerechte Haltung</p>\n",
 				"date_published": "2025-01-21T18:59:41+01:00",
 				"url": "https://www.the-sprawl.blog/2025/01/21/artgerechte-haltung.html"
 			},
@@ -39,14 +87,6 @@
 				"url": "https://www.the-sprawl.blog/2025/01/21/das-a-in-abc-pflaster.html"
 			},
 			{
-				"id": "http://tabtwo.micro.blog/2025/01/21/breaking-bad-x-hermanos.html",
-				"title": "Breaking Bad  4x08 \"Hermanos\"",
-				"content_html": "<p><!-- raw HTML omitted -->Skyler develops an unusual solution to her money troubles. Hank enlists Walt to investigate a theory. Walt’s impatience with Jesse grows.</p>\n",
-				"content_text": "<img src=\"uploads/2025/49c8b55167.jpg\" />Skyler develops an unusual solution to her money troubles. Hank enlists Walt to investigate a theory. Walt’s impatience with Jesse grows.\n",
-				"date_published": "2025-01-21T00:06:51+01:00",
-				"url": "https://www.the-sprawl.blog/2025/01/21/breaking-bad-x-hermanos.html"
-			},
-			{
 				"id": "http://tabtwo.micro.blog/2025/01/20/der-musk-hebt-tatschlich-den.html",
 				
 				"content_html": "<p>Der Musk hebt tatsächlich den Arm zum Hitlergruß, mehrfach. Vor einem Milliardenpublikum. Ich fasse es nicht.</p>\n",
@@ -55,36 +95,12 @@
 				"url": "https://www.the-sprawl.blog/2025/01/20/der-musk-hebt-tatschlich-den.html"
 			},
 			{
-				"id": "http://tabtwo.micro.blog/2025/01/19/breaking-bad-x-cornered.html",
-				"title": "Breaking Bad  4x06 \"Cornered\"",
-				"content_html": "<p><!-- raw HTML omitted -->Skyler makes an unsettling discovery. Walter, Jr. pushes his dad into a questionable purchase. Jesse offers Mike some unexpected help.</p>\n",
-				"content_text": "<img src=\"uploads/2025/23d89a3c64.jpg\" />Skyler makes an unsettling discovery. Walter, Jr. pushes his dad into a questionable purchase. Jesse offers Mike some unexpected help.\n",
-				"date_published": "2025-01-19T23:50:30+01:00",
-				"url": "https://www.the-sprawl.blog/2025/01/19/breaking-bad-x-cornered.html"
-			},
-			{
 				"id": "http://tabtwo.micro.blog/2025/01/19/landleben.html",
 				
 				"content_html": "<!-- raw HTML omitted -->\n",
 				"content_text": "<img id=\"rss_item_786585015538294865\" src=\"https://cdn.uploads.micro.blog/63514/2025/94pakk5nwv65arsx9rca1hvpjrf01qcikvathakv.jpg\" alt=\"\">\n\t\t\t<p style=\"padding:10px;\">Landleben</p>\n",
 				"date_published": "2025-01-19T14:28:01+01:00",
 				"url": "https://www.the-sprawl.blog/2025/01/19/landleben.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2025/01/19/breaking-bad-x-shotgun.html",
-				"title": "Breaking Bad  4x05 \"Shotgun\"",
-				"content_html": "<p><!-- raw HTML omitted -->When Jesse goes missing, Walt fears the worst. Skyler has an unlikely reunion. Hank shares some bad news with Detective Tim Roberts.</p>\n",
-				"content_text": "<img src=\"uploads/2025/f3e2274231.jpg\" />When Jesse goes missing, Walt fears the worst. Skyler has an unlikely reunion. Hank shares some bad news with Detective Tim Roberts.\n",
-				"date_published": "2025-01-19T01:30:22+01:00",
-				"url": "https://www.the-sprawl.blog/2025/01/19/breaking-bad-x-shotgun.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2025/01/18/the-umbrella-academy-x-the.html",
-				"title": "The Umbrella Academy  4x01 \"The Unbearable Tragedy of Getting What You Want\"",
-				"content_html": "<p><!-- raw HTML omitted -->The family teams up to find a kidnapped Viktor while attempting to adjust to normal life. Lila and Five probe a mysterious group called the Keepers.</p>\n",
-				"content_text": "<img src=\"uploads/2025/4d12abff02.jpg\" />The family teams up to find a kidnapped Viktor while attempting to adjust to normal life. Lila and Five probe a mysterious group called the Keepers.\n",
-				"date_published": "2025-01-18T00:06:12+01:00",
-				"url": "https://www.the-sprawl.blog/2025/01/18/the-umbrella-academy-x-the.html"
 			},
 			{
 				"id": "http://tabtwo.micro.blog/2025/01/13/pizza-frisch-vom-grill.html",
@@ -111,332 +127,12 @@
 				"url": "https://www.the-sprawl.blog/2025/01/12/ideales-grillwetter-und-die-getrnke.html"
 			},
 			{
-				"id": "http://tabtwo.micro.blog/2025/01/11/jetzt-auch-auf-bluesky-zu.html",
-				
-				"content_html": "<p>Jetzt auch auf BlueSky zu finden unter <a href=\"https://bsky.app/profile/the-sprawl.blog\">bsky.app/profile/t&hellip;</a></p>\n",
-				"content_text": "Jetzt auch auf BlueSky zu finden unter [bsky.app/profile/t...](https://bsky.app/profile/the-sprawl.blog)\n",
-				"date_published": "2025-01-11T19:20:54+01:00",
-				"url": "https://www.the-sprawl.blog/2025/01/11/jetzt-auch-auf-bluesky-zu.html"
-			},
-			{
 				"id": "http://tabtwo.micro.blog/2025/01/10/mittagessen.html",
 				
 				"content_html": "<p>Mittagessen 2025-01-10</p>\n<!-- raw HTML omitted -->\n",
 				"content_text": "Mittagessen 2025-01-10\n\n<img src=\"https://cdn.uploads.micro.blog/63514/2025/a7bf4e857d4244b280c0c0020c8d838c.jpg\" width=\"450\" height=\"600\" alt=\"\">\n",
 				"date_published": "2025-01-10T15:18:28+01:00",
 				"url": "https://www.the-sprawl.blog/2025/01/10/mittagessen.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2025/01/01/just-go-with-it.html",
-				"title": "Just Go with It (2011)",
-				"content_html": "<p><!-- raw HTML omitted -->While romancing Palmer, a much younger schoolteacher, plastic surgeon Danny Maccabee enlists his loyal assistant Katherine to pretend to be his soon to be ex-wife, in order to cover up a careless lie. When more lies backfire, Katherine's kids become involved, and everyone heads off for a weekend in Hawaii that will change all their lives.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/962fafbcd8.jpg\" />While romancing Palmer, a much younger schoolteacher, plastic surgeon Danny Maccabee enlists his loyal assistant Katherine to pretend to be his soon to be ex-wife, in order to cover up a careless lie. When more lies backfire, Katherine&#39;s kids become involved, and everyone heads off for a weekend in Hawaii that will change all their lives.\n",
-				"date_published": "2025-01-01T03:11:19+01:00",
-				"url": "https://www.the-sprawl.blog/2025/01/01/just-go-with-it.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/30/murder-mindfully-x-death.html",
-				"title": "Murder Mindfully  1x08 \"Death\"",
-				"content_html": "<p><!-- raw HTML omitted -->Björn enacts a risky plan to deal with Boris and get Nicole off his back, and it's important to be mindful of every detail.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/6c11d8d462.jpg\" />Björn enacts a risky plan to deal with Boris and get Nicole off his back, and it&#39;s important to be mindful of every detail.\n",
-				"date_published": "2024-12-30T23:36:59+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/30/murder-mindfully-x-death.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/28/slow-horses-x-drinking-games.html",
-				"title": "Slow Horses  2x03 \"Drinking Games\"",
-				"content_html": "<p><!-- raw HTML omitted -->River gets cozy in the Cotswolds while searching for a sleeper agent. Min discovers Russian drinking games are the most brutal of all.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/f0d025ee09.jpg\" />River gets cozy in the Cotswolds while searching for a sleeper agent. Min discovers Russian drinking games are the most brutal of all.\n",
-				"date_published": "2024-12-28T22:53:05+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/28/slow-horses-x-drinking-games.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/21/young-sheldon-x-a-highpitched.html",
-				"title": "Young Sheldon  2x01 \"A High-Pitched Buzz and Training Wheels\"",
-				"content_html": "<p><!-- raw HTML omitted -->After Sheldon dismantles the refrigerator to stop an annoying hum, he gets a paper route to pay for the repairs.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/6b73188c56.jpg\" />After Sheldon dismantles the refrigerator to stop an annoying hum, he gets a paper route to pay for the repairs.\n",
-				"date_published": "2024-12-21T23:50:36+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/21/young-sheldon-x-a-highpitched.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/21/young-sheldon-x-vanilla-ice.html",
-				"title": "Young Sheldon  1x22 \"Vanilla Ice Cream, Gentleman Callers, and a Dinette Set\"",
-				"content_html": "<p><!-- raw HTML omitted -->When Connie is pursued by two gentlemen callers, Sheldon interferes, forcing her to set some ground rules.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/ea0de59c51.jpg\" />When Connie is pursued by two gentlemen callers, Sheldon interferes, forcing her to set some ground rules.\n",
-				"date_published": "2024-12-21T23:37:31+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/21/young-sheldon-x-vanilla-ice.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/20/murder-mindfully-x-brainstorming.html",
-				"title": "Murder Mindfully  1x06 \"Brainstorming\"",
-				"content_html": "<p><!-- raw HTML omitted -->It would be easier to just murder everyone, but Björn decides on a more practical solution. Nicole questions Emily about her trip to the lake.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/1221bc5d85.jpg\" />It would be easier to just murder everyone, but Björn decides on a more practical solution. Nicole questions Emily about her trip to the lake.\n",
-				"date_published": "2024-12-20T22:57:53+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/20/murder-mindfully-x-brainstorming.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/20/murder-mindfully-x-panic.html",
-				"title": "Murder Mindfully  1x05 \"Panic\"",
-				"content_html": "<p><!-- raw HTML omitted -->Nicole investigates a series of explosive clues. After being kidnapped by a rival crime boss, Björn sets out to expose Toni's plan.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/dc60ec9646.jpg\" />Nicole investigates a series of explosive clues. After being kidnapped by a rival crime boss, Björn sets out to expose Toni&#39;s plan.\n",
-				"date_published": "2024-12-20T00:13:07+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/20/murder-mindfully-x-panic.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/19/murder-mindfully-x-shamelessness.html",
-				"title": "Murder Mindfully  1x04 \"Shamelessness\"",
-				"content_html": "<p><!-- raw HTML omitted -->Katharina asks for Björn's help in securing a day care center for Emily. Toni suspects Björn isn't being truthful about Dragan's whereabouts.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/831bd1314e.jpg\" />Katharina asks for Björn&#39;s help in securing a day care center for Emily. Toni suspects Björn isn&#39;t being truthful about Dragan&#39;s whereabouts.\n",
-				"date_published": "2024-12-19T23:43:01+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/19/murder-mindfully-x-shamelessness.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/18/murder-mindfully-x-fear.html",
-				"title": "Murder Mindfully  1x03 \"Fear\"",
-				"content_html": "<p><!-- raw HTML omitted -->As he gets back to his routine to avoid any appearance of guilt, Björn discovers a couple of loose ends he needs to deal with.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/3be49f7dd7.jpg\" />As he gets back to his routine to avoid any appearance of guilt, Björn discovers a couple of loose ends he needs to deal with.\n",
-				"date_published": "2024-12-18T23:57:05+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/18/murder-mindfully-x-fear.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/18/murder-mindfully-x-happiness.html",
-				"title": "Murder Mindfully  1x02 \"Happiness\"",
-				"content_html": "<p><!-- raw HTML omitted -->Björn figures out how to mindfully dispose of a body while navigating the suspicions of his family, the police and Dragan's underlings.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/daf3493b43.jpg\" />Björn figures out how to mindfully dispose of a body while navigating the suspicions of his family, the police and Dragan&#39;s underlings.\n",
-				"date_published": "2024-12-18T23:44:22+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/18/murder-mindfully-x-happiness.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/16/falcon-crest-x-in-his.html",
-				"title": "Falcon Crest  1x01 \"In his Father's House\"",
-				"content_html": "<p><!-- raw HTML omitted -->When Chase Gioberti (Robert Foxworth) learned that he lost his father (Harry Townes), two feuding heads of a California wine-producing family chose to put all their moments behind for Jason Gioberti's funeral. When younger daughter, Emma Channing (Margaret Ladd) was responsible for her uncle's death, Angela Channing (Jane Wyman) tyrannical matriarch and owner of Falcon Crest, protects and calms her. When Chase's family heads back to New York, after the death of his father, he begins to remember all the fun times he had with his father. It was also Chase's call for his wife, Maggie Gioberti (Susan Sullivan) and children, Cole (William R. Moses) and Vicky (Jamie Rose), to move to their own house in California, at Falcon Crest, after a year's sabbatical that has taken a toll on his family. Unhappy with Chase's family moving back to the vineyard, Angela comes up with a way to forsake them, consequently, her grandson, Lance Cumson (Lorenzo Lamas) was shocked to hear about her decision for a competitive family to go back east.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/8e52a16d5b.jpg\" />When Chase Gioberti (Robert Foxworth) learned that he lost his father (Harry Townes), two feuding heads of a California wine-producing family chose to put all their moments behind for Jason Gioberti&#39;s funeral. When younger daughter, Emma Channing (Margaret Ladd) was responsible for her uncle&#39;s death, Angela Channing (Jane Wyman) tyrannical matriarch and owner of Falcon Crest, protects and calms her. When Chase&#39;s family heads back to New York, after the death of his father, he begins to remember all the fun times he had with his father. It was also Chase&#39;s call for his wife, Maggie Gioberti (Susan Sullivan) and children, Cole (William R. Moses) and Vicky (Jamie Rose), to move to their own house in California, at Falcon Crest, after a year&#39;s sabbatical that has taken a toll on his family. Unhappy with Chase&#39;s family moving back to the vineyard, Angela comes up with a way to forsake them, consequently, her grandson, Lance Cumson (Lorenzo Lamas) was shocked to hear about her decision for a competitive family to go back east.\n",
-				"date_published": "2024-12-16T10:21:17+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/16/falcon-crest-x-in-his.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/16/falcon-crest-x-liars-anonymous.html",
-				"title": "Falcon Crest  8x06 \"Liars Anonymous\"",
-				"content_html": "<p><!-- raw HTML omitted -->After Angela blackmails Nick with incriminating information about his past, Nick surrenders Falcon Crest to Angela. While Angela makes plans to rebuild the house, Nick regrets his deference to her and warns that he will not bend in the future. Nick decides to tell Ben the truth about his mother, which enrages the young man. Richard's newspaper prints the fact that Melissa had placed a phone call after Lance's departure, proving that Lance is innocent of her death. Richard warns Pilar not to let her affair with Lance interfere with Richard's takeover of the valley. When Frank's old friend Libby appears, Nick and Ben are surprised. Libby requests Frank to join her in Columbia to mine emeralds, which is an offer that disturbs Angela. As Emma and Cabot begin an intimate relationship, Cabot questions her true identity.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/ebe613bc63.jpg\" />After Angela blackmails Nick with incriminating information about his past, Nick surrenders Falcon Crest to Angela. While Angela makes plans to rebuild the house, Nick regrets his deference to her and warns that he will not bend in the future. Nick decides to tell Ben the truth about his mother, which enrages the young man. Richard&#39;s newspaper prints the fact that Melissa had placed a phone call after Lance&#39;s departure, proving that Lance is innocent of her death. Richard warns Pilar not to let her affair with Lance interfere with Richard&#39;s takeover of the valley. When Frank&#39;s old friend Libby appears, Nick and Ben are surprised. Libby requests Frank to join her in Columbia to mine emeralds, which is an offer that disturbs Angela. As Emma and Cabot begin an intimate relationship, Cabot questions her true identity.\n",
-				"date_published": "2024-12-16T10:21:17+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/16/falcon-crest-x-liars-anonymous.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/16/falcon-crest-x-life-with.html",
-				"title": "Falcon Crest  8x07 \"Life with Father\"",
-				"content_html": "<p><!-- raw HTML omitted -->As Christmas arrives in Tuscany Valley, Frank agonizes over whether or not to leave his family to mine emeralds with Libby. Ben turns against Nick for lying to him about his mother. Unaware of Richard's assistance, Maggie is delighted with the overwhelming response to her special advertising offer. Richard offers to back Pilar's failing consortium through a blind company for a controlling interest. When Daniel Cabot discovers Emma's true identity, he abandons her. Although Angela celebrates the holiday by surrounding herself with family, Pilar's holiday is spoiled when she spots her brothers Tommy and Paco being chased by security officers. However, Christmas dinner at Pilar's home brings Nick and Ben closer together and Nick to admit his love for his father.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/e745b2733e.jpg\" />As Christmas arrives in Tuscany Valley, Frank agonizes over whether or not to leave his family to mine emeralds with Libby. Ben turns against Nick for lying to him about his mother. Unaware of Richard&#39;s assistance, Maggie is delighted with the overwhelming response to her special advertising offer. Richard offers to back Pilar&#39;s failing consortium through a blind company for a controlling interest. When Daniel Cabot discovers Emma&#39;s true identity, he abandons her. Although Angela celebrates the holiday by surrounding herself with family, Pilar&#39;s holiday is spoiled when she spots her brothers Tommy and Paco being chased by security officers. However, Christmas dinner at Pilar&#39;s home brings Nick and Ben closer together and Nick to admit his love for his father.\n",
-				"date_published": "2024-12-16T10:21:17+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/16/falcon-crest-x-life-with.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/16/falcon-crest-x-solomons-choice.html",
-				"title": "Falcon Crest  8x08 \"Solomon's Choice\"",
-				"content_html": "<p><!-- raw HTML omitted -->Mercedes and her husband pressure Pilar to sign papers allowing them to adopt Lisa. Although Pilar realizes that Mercedes is the only mother the child has ever known, the thought of a final, legal adoption is more than Pilar can bear. When Pilar goes to Lance for consolation, she discovers him with an attractive young woman. After Angela is outmaneuvered for the purchase of a bottling company, she is determined to learn who is behind the consortium. After Maggie's newspaper office is mysteriously trashed a few days before the first edition, Emma discovers that Cabot has been lying to her about his true identity.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/f28c45c436.jpg\" />Mercedes and her husband pressure Pilar to sign papers allowing them to adopt Lisa. Although Pilar realizes that Mercedes is the only mother the child has ever known, the thought of a final, legal adoption is more than Pilar can bear. When Pilar goes to Lance for consolation, she discovers him with an attractive young woman. After Angela is outmaneuvered for the purchase of a bottling company, she is determined to learn who is behind the consortium. After Maggie&#39;s newspaper office is mysteriously trashed a few days before the first edition, Emma discovers that Cabot has been lying to her about his true identity.\n",
-				"date_published": "2024-12-16T10:21:17+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/16/falcon-crest-x-solomons-choice.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/16/falcon-crest-x-suspicion.html",
-				"title": "Falcon Crest  8x09 \"Suspicion\"",
-				"content_html": "<p><!-- raw HTML omitted -->Angela is delighted when Emma announces her intention to marry the famous writer, R.D. Young, but her plans for the wedding conflict with Young's passion for privacy. Hurt by Lance's involvement with Cookie Nash, Pilar turns to Nick for consolation. Moreover, Angela discovers that it was Pilar who organized the consortium with Richard. When Maggie discovers that Tommy was present when her newspaper office was trashed, she must decide whether to give him a second chance.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/fefc4db9c3.jpg\" />Angela is delighted when Emma announces her intention to marry the famous writer, R.D. Young, but her plans for the wedding conflict with Young&#39;s passion for privacy. Hurt by Lance&#39;s involvement with Cookie Nash, Pilar turns to Nick for consolation. Moreover, Angela discovers that it was Pilar who organized the consortium with Richard. When Maggie discovers that Tommy was present when her newspaper office was trashed, she must decide whether to give him a second chance.\n",
-				"date_published": "2024-12-16T10:21:17+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/16/falcon-crest-x-suspicion.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/16/falcon-crest-x-there-goes.html",
-				"title": "Falcon Crest  8x10 \"There Goes the Bride\"",
-				"content_html": "<p><!-- raw HTML omitted -->Angela's hands-on approach to Emma's forthcoming wedding may prove futile when the bride and groom call the festivities off. After Emma breaks the news to Angela that the wedding is off, her prospective bridegroom, R.D. Young, apologizes for his behavior and announces that the wedding is on schedule again. During the wedding rehearsals, Young's nervousness escalates and he convinces Emma to elope. After Pilar accepts Lance's apology about Cookie Nash, their romance resumes. Nick fails to persuade Ben to curtail his relations with the Cellini family, despite his warning that the family is dangerous. An unannounced visitor adds turmoil to Tuscany Valley.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/15c0d6a51f.jpg\" />Angela&#39;s hands-on approach to Emma&#39;s forthcoming wedding may prove futile when the bride and groom call the festivities off. After Emma breaks the news to Angela that the wedding is off, her prospective bridegroom, R.D. Young, apologizes for his behavior and announces that the wedding is on schedule again. During the wedding rehearsals, Young&#39;s nervousness escalates and he convinces Emma to elope. After Pilar accepts Lance&#39;s apology about Cookie Nash, their romance resumes. Nick fails to persuade Ben to curtail his relations with the Cellini family, despite his warning that the family is dangerous. An unannounced visitor adds turmoil to Tuscany Valley.\n",
-				"date_published": "2024-12-16T10:21:17+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/16/falcon-crest-x-there-goes.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/16/falcon-crest-x-true-confessions.html",
-				"title": "Falcon Crest  8x11 \"True Confessions\"",
-				"content_html": "<p><!-- raw HTML omitted -->In the continuing battle to keep Angela off balance, Pilar placates her about the consortium, while continuing to plot with Richard. Despite the stir created by her return from Italy, Anna Cellini is delighted to be reunited with Ben, but afraid that her father will ruin everything by insisting that his only surviving grandchild and heir be brought to Italy. When Richard tells Maggie he is in New York, he is really in Chicago with Pilar for meetings with financier Malcolm Sinclair. Cookie reveals to Lance that she is pregnant with his child.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/e521182274.jpg\" />In the continuing battle to keep Angela off balance, Pilar placates her about the consortium, while continuing to plot with Richard. Despite the stir created by her return from Italy, Anna Cellini is delighted to be reunited with Ben, but afraid that her father will ruin everything by insisting that his only surviving grandchild and heir be brought to Italy. When Richard tells Maggie he is in New York, he is really in Chicago with Pilar for meetings with financier Malcolm Sinclair. Cookie reveals to Lance that she is pregnant with his child.\n",
-				"date_published": "2024-12-16T10:21:17+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/16/falcon-crest-x-true-confessions.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/16/falcon-crest-x-and-baby.html",
-				"title": "Falcon Crest  8x12 \"And Baby Makes Three\"",
-				"content_html": "<p><!-- raw HTML omitted -->As Angela continues to press for information on the consortium, Pilar divulges surprising news to Lance. After Angela follows the paper trail leading from the consortium to Richard's company, she confronts Richard. Making peace, Nick and Anna reach an accord about Ben. In conclusion, Pilar drops a bombshell piece of news on Lance: he is Lisa's father.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/3cfe59d6b2.jpg\" />As Angela continues to press for information on the consortium, Pilar divulges surprising news to Lance. After Angela follows the paper trail leading from the consortium to Richard&#39;s company, she confronts Richard. Making peace, Nick and Anna reach an accord about Ben. In conclusion, Pilar drops a bombshell piece of news on Lance: he is Lisa&#39;s father.\n",
-				"date_published": "2024-12-16T10:21:17+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/16/falcon-crest-x-and-baby.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/16/falcon-crest-x-dinner-at.html",
-				"title": "Falcon Crest  8x13 \"Dinner at Eight\"",
-				"content_html": "<p><!-- raw HTML omitted -->Despite pressure from Angela, Lance refuses to marry Cookie, but he offers her full financial support. Angela inadvertently uncovers Richard's duplicity in the Troilus affair. As Anna and Nick rekindle their love, happiness seems assured for the reunited family. However, Anna continues to hide the facts of her fatal illness and Ben receives a card from Frank telling him that the emerald mine is coming through. Pilar makes it very clear to both Sinclair and Richard that she will side with whomever makes it most worth her while. Sinclair's marriage proposal comes three years too late for Pilar, who turns it down. However, she gladly accepts Lance's proposal to become his wife.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/ef3f259a5d.jpg\" />Despite pressure from Angela, Lance refuses to marry Cookie, but he offers her full financial support. Angela inadvertently uncovers Richard&#39;s duplicity in the Troilus affair. As Anna and Nick rekindle their love, happiness seems assured for the reunited family. However, Anna continues to hide the facts of her fatal illness and Ben receives a card from Frank telling him that the emerald mine is coming through. Pilar makes it very clear to both Sinclair and Richard that she will side with whomever makes it most worth her while. Sinclair&#39;s marriage proposal comes three years too late for Pilar, who turns it down. However, she gladly accepts Lance&#39;s proposal to become his wife.\n",
-				"date_published": "2024-12-16T10:21:17+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/16/falcon-crest-x-dinner-at.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/16/falcon-crest-x-uneasy-allies.html",
-				"title": "Falcon Crest  8x14 \"Uneasy Allies\"",
-				"content_html": "<p><!-- raw HTML omitted -->Despite Angela's obvious opposition, Lance and Pilar decide to marry. Maggie, appalled at Richard's plans for the valley, leaves him. Hoping to prevent Lance and Pilar's marriage, Angela, who has made a deal with Sinclair, tells Lance that Pilar was well aware of Richard's business dealings; however, Pilar convinces him otherwise, and the wedding is definitely on. After Nick learns the seriousness of Anna's condition, he convinces her to allow him and Ben to care for her, provided that Ben not be told of her illness. After Raoul and his gang run Ben and Gabriel off the road, the gang leaves them unconscious on the roadside.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/b2cd2b658a.jpg\" />Despite Angela&#39;s obvious opposition, Lance and Pilar decide to marry. Maggie, appalled at Richard&#39;s plans for the valley, leaves him. Hoping to prevent Lance and Pilar&#39;s marriage, Angela, who has made a deal with Sinclair, tells Lance that Pilar was well aware of Richard&#39;s business dealings; however, Pilar convinces him otherwise, and the wedding is definitely on. After Nick learns the seriousness of Anna&#39;s condition, he convinces her to allow him and Ben to care for her, provided that Ben not be told of her illness. After Raoul and his gang run Ben and Gabriel off the road, the gang leaves them unconscious on the roadside.\n",
-				"date_published": "2024-12-16T10:21:17+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/16/falcon-crest-x-uneasy-allies.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/16/falcon-crest-x-the-vigil.html",
-				"title": "Falcon Crest  8x15 \"The Vigil\"",
-				"content_html": "<p><!-- raw HTML omitted -->Maggie's rebuff of Richard's attempts at reconciliation cause unexpected results. Upon hearing news of the car accident, Lance and Pilar immediately return home. With Ben and Gabriel in serious condition, Anna feels guilty over having given   Ben the car. While the hospital staff quibbles about accepting Gabriel, he goes into convulsions, requiring immediate surgery. Angela, though not approving of the marriage, invites the newlyweds to make their home at Falcon Crest. In response to Maggie's rebuff, Richard pressures a judge for a court order that transfers custody of the boys to him. Accompanied by the Sheriff, Richard removes the children from Falcon Crest.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/2731cd2d91.jpg\" />Maggie&#39;s rebuff of Richard&#39;s attempts at reconciliation cause unexpected results. Upon hearing news of the car accident, Lance and Pilar immediately return home. With Ben and Gabriel in serious condition, Anna feels guilty over having given   Ben the car. While the hospital staff quibbles about accepting Gabriel, he goes into convulsions, requiring immediate surgery. Angela, though not approving of the marriage, invites the newlyweds to make their home at Falcon Crest. In response to Maggie&#39;s rebuff, Richard pressures a judge for a court order that transfers custody of the boys to him. Accompanied by the Sheriff, Richard removes the children from Falcon Crest.\n",
-				"date_published": "2024-12-16T10:21:17+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/16/falcon-crest-x-the-vigil.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/16/falcon-crest-x-missing-links.html",
-				"title": "Falcon Crest  8x16 \"Missing Links\"",
-				"content_html": "<p><!-- raw HTML omitted -->Michael, despondent at his mother's continued absence, runs away. Richard moves to block Angela's latest power play, while Frank Agretti returns to the Tuscany Valley. While Angela is prepared to help Maggie wrest custody of the children from Richard, Richard prepares to clip Angela's wings decisively in the matter of Glenbraddoch. Meanwhile, Michael's disappearance causes concern. Learning of Ben's accident, Frank Agretti returns to the valley, while Pilar and Lance agree to try to make their home at Falcon Crest.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/810bf28144.jpg\" />Michael, despondent at his mother&#39;s continued absence, runs away. Richard moves to block Angela&#39;s latest power play, while Frank Agretti returns to the Tuscany Valley. While Angela is prepared to help Maggie wrest custody of the children from Richard, Richard prepares to clip Angela&#39;s wings decisively in the matter of Glenbraddoch. Meanwhile, Michael&#39;s disappearance causes concern. Learning of Ben&#39;s accident, Frank Agretti returns to the valley, while Pilar and Lance agree to try to make their home at Falcon Crest.\n",
-				"date_published": "2024-12-16T10:21:17+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/16/falcon-crest-x-missing-links.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/16/falcon-crest-x-resurrection.html",
-				"title": "Falcon Crest  8x17 \"Resurrection\"",
-				"content_html": "<p><!-- raw HTML omitted -->As Anna grows increasingly weaker, she desperately tries to convince Frank and Nick to help end her pain. After Maggie dissolves in tears after a phone conversation with Michael, Tommy consoles her, revealing his true feelings for her. On a business trip to Chicago, Richard encounters a glamorous woman who is a dead ringer for Melissa. Pretending that it will help his ill mother, Richard convinces his new conquest, Samantha Ross, to return to San Francisco and impersonate Melissa. After Richard agrees to Samantha's hefty price, the deal is cemented.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/c2fdb71548.jpg\" />As Anna grows increasingly weaker, she desperately tries to convince Frank and Nick to help end her pain. After Maggie dissolves in tears after a phone conversation with Michael, Tommy consoles her, revealing his true feelings for her. On a business trip to Chicago, Richard encounters a glamorous woman who is a dead ringer for Melissa. Pretending that it will help his ill mother, Richard convinces his new conquest, Samantha Ross, to return to San Francisco and impersonate Melissa. After Richard agrees to Samantha&#39;s hefty price, the deal is cemented.\n",
-				"date_published": "2024-12-16T10:21:17+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/16/falcon-crest-x-resurrection.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/16/falcon-crest-x-the-last.html",
-				"title": "Falcon Crest  8x21 \"The Last Laugh\"",
-				"content_html": "<p><!-- raw HTML omitted -->As Angela's competency hearing proceeds, it becomes obvious that her case is weak, and Maggie's reputation begins to slide because of rumors about her relationship with Tommy. When Frank discovers that the feud between the Agrettis and the Giobertis had begun when the title to Falcon Crest changed hands during a crooked card game, he tries to convince Nick to let sleeping dogs lie. After selling some of her recently acquired Glenbraddoch stock to Lance, Pilar proposes to establish a trauma center in the Ortega name, with her terms including banishment for everyone involved in Gabriel's case. When the court declares Angela mentally incompetent, Angela rocks the court with a startling revelation.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/2562781678.jpg\" />As Angela&#39;s competency hearing proceeds, it becomes obvious that her case is weak, and Maggie&#39;s reputation begins to slide because of rumors about her relationship with Tommy. When Frank discovers that the feud between the Agrettis and the Giobertis had begun when the title to Falcon Crest changed hands during a crooked card game, he tries to convince Nick to let sleeping dogs lie. After selling some of her recently acquired Glenbraddoch stock to Lance, Pilar proposes to establish a trauma center in the Ortega name, with her terms including banishment for everyone involved in Gabriel&#39;s case. When the court declares Angela mentally incompetent, Angela rocks the court with a startling revelation.\n",
-				"date_published": "2024-12-16T10:21:17+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/16/falcon-crest-x-the-last.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/16/falcon-crest-x-decline-and.html",
-				"title": "Falcon Crest  8x22 \"Decline and Fall\"",
-				"content_html": "<p><!-- raw HTML omitted -->Having successfully frustrated Richard's plans by marrying Frank Agretti, Angela returns to Falcon Crest, where her family rallies to her side and plans are devised for Richard's total downfall. When Samantha returns to Chicago from Paris, Richard tells her to forget their association or she will have to pay consequences. Nonetheless, when Samantha arrives at Falcon Crest, she provides evidence that Richard was involved in Angela's kidnapping. Consequently, Pilar and Angela work with the S.E.C. to facilitate Richard's financial ruin.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/9fee7835d9.jpg\" />Having successfully frustrated Richard&#39;s plans by marrying Frank Agretti, Angela returns to Falcon Crest, where her family rallies to her side and plans are devised for Richard&#39;s total downfall. When Samantha returns to Chicago from Paris, Richard tells her to forget their association or she will have to pay consequences. Nonetheless, when Samantha arrives at Falcon Crest, she provides evidence that Richard was involved in Angela&#39;s kidnapping. Consequently, Pilar and Angela work with the S.E.C. to facilitate Richard&#39;s financial ruin.\n",
-				"date_published": "2024-12-16T10:21:17+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/16/falcon-crest-x-decline-and.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/16/falcon-crest-x-the-price.html",
-				"title": "Falcon Crest  9x01 \"The Price of Freedom\"",
-				"content_html": "<p><!-- raw HTML omitted -->As Angela prepares to travel to Greece, she leaves her grandson Lance in charge, though under the strict supervision of her reliable foreman, Frank Agretti. Since Daniel, an unsuccessful author, has turned to gambling, drinking and brutality, Emma has become a battered wife. To escape her troubles, Emma turns to another man, Charley, for much-needed affection. In an effort to get out of prison, Richard decides to testify against his co-conspirator, Michael Sharpe. Richard evades an attempt on his life meant to stop his testimony. Accidentally getting her finger stuck in a pool drain, Maggie drowns. Angela hires a private investigator to tail Pilar.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/8682a029b8.jpg\" />As Angela prepares to travel to Greece, she leaves her grandson Lance in charge, though under the strict supervision of her reliable foreman, Frank Agretti. Since Daniel, an unsuccessful author, has turned to gambling, drinking and brutality, Emma has become a battered wife. To escape her troubles, Emma turns to another man, Charley, for much-needed affection. In an effort to get out of prison, Richard decides to testify against his co-conspirator, Michael Sharpe. Richard evades an attempt on his life meant to stop his testimony. Accidentally getting her finger stuck in a pool drain, Maggie drowns. Angela hires a private investigator to tail Pilar.\n",
-				"date_published": "2024-12-16T10:21:17+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/16/falcon-crest-x-the-price.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/16/falcon-crest-x-charley.html",
-				"title": "Falcon Crest  9x02 \"Charley\"",
-				"content_html": "<p><!-- raw HTML omitted -->Emma's old friend Charley arrives just in time for Maggie's funeral. Although Angela disapproves of Charley and changes her vacation plans, Emma stands by Charley despite Angela's interference. Michael Sharpe takes his revenge on Richard for his testimony against him by having Richard's children removed from his custody. Aware that Angela is trying to break up his relationship with Emma, Charley places a pillow over Angela's face and suffocates her.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/52d20e6622.jpg\" />Emma&#39;s old friend Charley arrives just in time for Maggie&#39;s funeral. Although Angela disapproves of Charley and changes her vacation plans, Emma stands by Charley despite Angela&#39;s interference. Michael Sharpe takes his revenge on Richard for his testimony against him by having Richard&#39;s children removed from his custody. Aware that Angela is trying to break up his relationship with Emma, Charley places a pillow over Angela&#39;s face and suffocates her.\n",
-				"date_published": "2024-12-16T10:21:17+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/16/falcon-crest-x-charley.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/16/falcon-crest-x-flesh-and.html",
-				"title": "Falcon Crest  9x03 \"Flesh and Blood\"",
-				"content_html": "<p><!-- raw HTML omitted -->After being found unconscious, Angela is rushed to the hospital, where she slips into a coma. Lance has a difficult time managing Falcon Crest without Angela, particularly when business associates insist on negotiating with Angela, but fortunately, Pilar is able to help Lance deal with their distributor, Ned Vogel. Richard discovers that Michael was instrumental in Richard's loss of custody over his children. A power outage at the hospital forces the family to consider pulling the plug on Angela's life support.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/809e745195.jpg\" />After being found unconscious, Angela is rushed to the hospital, where she slips into a coma. Lance has a difficult time managing Falcon Crest without Angela, particularly when business associates insist on negotiating with Angela, but fortunately, Pilar is able to help Lance deal with their distributor, Ned Vogel. Richard discovers that Michael was instrumental in Richard&#39;s loss of custody over his children. A power outage at the hospital forces the family to consider pulling the plug on Angela&#39;s life support.\n",
-				"date_published": "2024-12-16T10:21:17+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/16/falcon-crest-x-flesh-and.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/16/falcon-crest-x-payback.html",
-				"title": "Falcon Crest  9x04 \"Payback\"",
-				"content_html": "<p><!-- raw HTML omitted -->With his continued influence over Emma, Charley upsets the family. After the bank calls in its loan, Richard saves Falcon Crest from Michael Sharpe. Encouraged by his sister-in-law, Genele Erickson, Frank Agretti goes to the bank with the power of attorney which Angela had given him prior to her aborted trip to Europe and takes over operation of Falcon Crest.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/b68e404181.jpg\" />With his continued influence over Emma, Charley upsets the family. After the bank calls in its loan, Richard saves Falcon Crest from Michael Sharpe. Encouraged by his sister-in-law, Genele Erickson, Frank Agretti goes to the bank with the power of attorney which Angela had given him prior to her aborted trip to Europe and takes over operation of Falcon Crest.\n",
-				"date_published": "2024-12-16T10:21:17+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/16/falcon-crest-x-payback.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/16/falcon-crest-x-doctor-dollars.html",
-				"title": "Falcon Crest  9x07 \"Doctor Dollars\"",
-				"content_html": "<p><!-- raw HTML omitted -->As Michael Sharpe arranges for Richard to be killed, the contract eventually goes to Sal, Richard's acquaintance from prison. Instead of killing Richard, Sal offers to help him get back at Sharpe, but later pays with his life when Sharpe learns that Sal double-crossed him. After Sydney defies her husband and befriends Emma, Ian beats her. In order to get rid of Lance, Charley shows him a videotape of Pilar's liaison with Ned Vogel. Despite Pilar's pleas, Lance leaves enraged, just as Charley had hoped.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/bb69fb99f6.jpg\" />As Michael Sharpe arranges for Richard to be killed, the contract eventually goes to Sal, Richard&#39;s acquaintance from prison. Instead of killing Richard, Sal offers to help him get back at Sharpe, but later pays with his life when Sharpe learns that Sal double-crossed him. After Sydney defies her husband and befriends Emma, Ian beats her. In order to get rid of Lance, Charley shows him a videotape of Pilar&#39;s liaison with Ned Vogel. Despite Pilar&#39;s pleas, Lance leaves enraged, just as Charley had hoped.\n",
-				"date_published": "2024-12-16T10:21:17+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/16/falcon-crest-x-doctor-dollars.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/16/falcon-crest-x-luck-wave.html",
-				"title": "Falcon Crest  9x08 \"Luck Wave\"",
-				"content_html": "<p><!-- raw HTML omitted -->Michael Sharpe convinces Ian and Charley to sell Falcon Crest to him, but Emma backs out. When Sharpe informs Ian and Charley that he has information on them that could put them in jail, Charley agrees to kill Emma and forge her signature. Charley is stopped in his tracks, however, when an unsuspecting Emma informs him that she is pregnant. Lance becomes embroiled in a deadly game of Russian roulette involving scorpions.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/321b6d3ba0.jpg\" />Michael Sharpe convinces Ian and Charley to sell Falcon Crest to him, but Emma backs out. When Sharpe informs Ian and Charley that he has information on them that could put them in jail, Charley agrees to kill Emma and forge her signature. Charley is stopped in his tracks, however, when an unsuspecting Emma informs him that she is pregnant. Lance becomes embroiled in a deadly game of Russian roulette involving scorpions.\n",
-				"date_published": "2024-12-16T10:21:17+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/16/falcon-crest-x-luck-wave.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/16/falcon-crest-x-merry-christmas.html",
-				"title": "Falcon Crest  9x09 \"Merry Christmas, Charley\"",
-				"content_html": "<p><!-- raw HTML omitted -->Charley keeps the pressure on Emma to sell to Sharpe, despite the fact that she is pregnant. After Charley tells Ian about Sydney's affair with Chris Agretti at the winery, the two brothers agree to kill their wives for deceiving them. Richard lets Lauren know how much she means to him. After Frank sees Sydney and Ian in a struggle, he tries to help, but when Ian gets the upper hand, Sydney saves Frank by killing Ian with a letter opener. Charley chases after Emma, but Emma shoots him in the chest.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/802f8c6a46.jpg\" />Charley keeps the pressure on Emma to sell to Sharpe, despite the fact that she is pregnant. After Charley tells Ian about Sydney&#39;s affair with Chris Agretti at the winery, the two brothers agree to kill their wives for deceiving them. Richard lets Lauren know how much she means to him. After Frank sees Sydney and Ian in a struggle, he tries to help, but when Ian gets the upper hand, Sydney saves Frank by killing Ian with a letter opener. Charley chases after Emma, but Emma shoots him in the chest.\n",
-				"date_published": "2024-12-16T10:21:17+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/16/falcon-crest-x-merry-christmas.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/16/falcon-crest-x-danny.html",
-				"title": "Falcon Crest  9x10 \"Danny\"",
-				"content_html": "<p><!-- raw HTML omitted -->With a bullet wound in the chest, Charley disappears from Falcon Crest. Because Chris Agretti is missing, Sydney worries that Ian and Charley might have killed him. Sharpe gains control of Falcon Crest by threatening to press criminal charges against Emma for authorizing the release of tainted wine. Sharpe's son Danny provides his father with crucial evidence, which he found while on a date with Sydney. Richard suspects that Lauren's marital situation is worsening, while Lance resists renewing a sexual relationship with Pilar.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/6699e53cc2.jpg\" />With a bullet wound in the chest, Charley disappears from Falcon Crest. Because Chris Agretti is missing, Sydney worries that Ian and Charley might have killed him. Sharpe gains control of Falcon Crest by threatening to press criminal charges against Emma for authorizing the release of tainted wine. Sharpe&#39;s son Danny provides his father with crucial evidence, which he found while on a date with Sydney. Richard suspects that Lauren&#39;s marital situation is worsening, while Lance resists renewing a sexual relationship with Pilar.\n",
-				"date_published": "2024-12-16T10:21:17+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/16/falcon-crest-x-danny.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/16/falcon-crest-x-time-bomb.html",
-				"title": "Falcon Crest  9x11 \"Time Bomb\"",
-				"content_html": "<p><!-- raw HTML omitted -->As payback for Jace Sampson's cooperation in Sharpe's takeover of Falcon Crest, Richard talks Jace into making an investment after which Jace loses all his money. Pilar and Lance's estrangement worsens. After Walker catches Richard and Lauren kissing, he confronts them with dynamite strapped to his chest, which is set to go off when the timer runs out. Rather than kill Lauren and the boys along with Richard, Walker runs outside just as the dynamite explodes.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/6d56c6bf69.jpg\" />As payback for Jace Sampson&#39;s cooperation in Sharpe&#39;s takeover of Falcon Crest, Richard talks Jace into making an investment after which Jace loses all his money. Pilar and Lance&#39;s estrangement worsens. After Walker catches Richard and Lauren kissing, he confronts them with dynamite strapped to his chest, which is set to go off when the timer runs out. Rather than kill Lauren and the boys along with Richard, Walker runs outside just as the dynamite explodes.\n",
-				"date_published": "2024-12-16T10:21:17+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/16/falcon-crest-x-time-bomb.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/16/falcon-crest-x-madness-descending.html",
-				"title": "Falcon Crest  9x12 \"Madness Descending\"",
-				"content_html": "<p><!-- raw HTML omitted -->When Genele forces Frank out of his own home in order to entertain her lover Sharpe, Frank delivers the remains of Genele's sister and Frank's ex-wife Renee to the police, informing them that Genele killed her ten years before. Sydney tries to push Pilar and Lance back together. Sharpe is displeased when Lauren moves in with Richard after her ordeal with Walker. Sharpe tries to act as a business mentor for Danny.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/a3f8f3a900.jpg\" />When Genele forces Frank out of his own home in order to entertain her lover Sharpe, Frank delivers the remains of Genele&#39;s sister and Frank&#39;s ex-wife Renee to the police, informing them that Genele killed her ten years before. Sydney tries to push Pilar and Lance back together. Sharpe is displeased when Lauren moves in with Richard after her ordeal with Walker. Sharpe tries to act as a business mentor for Danny.\n",
-				"date_published": "2024-12-16T10:21:17+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/16/falcon-crest-x-madness-descending.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/16/falcon-crest-x-four-women.html",
-				"title": "Falcon Crest  9x13 \"Four Women\"",
-				"content_html": "<p><!-- raw HTML omitted -->Haunted by the memory of her husband's death, Lauren moves out of Richard's place and in with Genele. When Danny invites Sydney for a romantic night on his father's yacht, Sydney maneuvers to put Lance and Pilar on the boat together instead. When Sharpe uses sensitive information about Richard's business dealings, he makes $300 million and Richard loses $52 million. Richard wrongfully accuses Lauren of leaking the information. After showing up at Richard's door, Genele removes her clothes.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/f40051f8cc.jpg\" />Haunted by the memory of her husband&#39;s death, Lauren moves out of Richard&#39;s place and in with Genele. When Danny invites Sydney for a romantic night on his father&#39;s yacht, Sydney maneuvers to put Lance and Pilar on the boat together instead. When Sharpe uses sensitive information about Richard&#39;s business dealings, he makes $300 million and Richard loses $52 million. Richard wrongfully accuses Lauren of leaking the information. After showing up at Richard&#39;s door, Genele removes her clothes.\n",
-				"date_published": "2024-12-16T10:21:17+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/16/falcon-crest-x-four-women.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/16/falcon-crest-x-brotherly-love.html",
-				"title": "Falcon Crest  9x14 \"Brotherly Love\"",
-				"content_html": "<p><!-- raw HTML omitted -->Danny fights Sharpe's attempts to control his life and to make him break up with Sydney. After Sydney brings them back together, Lance and Pilar make plans to retake control of Falcon Crest. When Richard learns through Pilar that Genele was responsible for delivering his business secrets to Sharpe, he throws Genele out and attempts to reconcile with Lauren. Realizing that her brother's affection for her is more than just brotherly, Lauren decides she has to leave Sharpe's house.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/1b56ae8b73.jpg\" />Danny fights Sharpe&#39;s attempts to control his life and to make him break up with Sydney. After Sydney brings them back together, Lance and Pilar make plans to retake control of Falcon Crest. When Richard learns through Pilar that Genele was responsible for delivering his business secrets to Sharpe, he throws Genele out and attempts to reconcile with Lauren. Realizing that her brother&#39;s affection for her is more than just brotherly, Lauren decides she has to leave Sharpe&#39;s house.\n",
-				"date_published": "2024-12-16T10:21:17+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/16/falcon-crest-x-brotherly-love.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/16/falcon-crest-x-finding-lauren.html",
-				"title": "Falcon Crest  9x15 \"Finding Lauren\"",
-				"content_html": "<p><!-- raw HTML omitted -->Richard and Sharpe search for Lauren, who had grown tired of their fighting and ran off to work as a waitress in a diner. Sharpe attempts to convince Danny to drop Sydney, who wants Falcon Crest to return to the Channing's. When Lance and Pilar ask Sharpe what it would take for him to sell them Falcon Crest, Sharpe tells them to break up Sydney and Danny. When Lauren returns to Richard and the boys, she has to deal with Richard's continuing obsession with his dead wife Maggie.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/90eddc0539.jpg\" />Richard and Sharpe search for Lauren, who had grown tired of their fighting and ran off to work as a waitress in a diner. Sharpe attempts to convince Danny to drop Sydney, who wants Falcon Crest to return to the Channing&#39;s. When Lance and Pilar ask Sharpe what it would take for him to sell them Falcon Crest, Sharpe tells them to break up Sydney and Danny. When Lauren returns to Richard and the boys, she has to deal with Richard&#39;s continuing obsession with his dead wife Maggie.\n",
-				"date_published": "2024-12-16T10:21:17+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/16/falcon-crest-x-finding-lauren.html"
-			},
-			{
-				"id": "http://tabtwo.micro.blog/2024/12/16/falcon-crest-x-walking-money.html",
-				"title": "Falcon Crest  9x16 \"Walking Money\"",
-				"content_html": "<p><!-- raw HTML omitted -->After Genele intercepts stolen bonds that Sharpe is trafficking, she arranges for Richard to cash them. Lance, Pilar and Danny believe that things are finally turning around for the winery. Genele has to pay hush money to a witness, but Richard has decided to keep all the money as revenge for Genele's past deceit. When Richard has the bonds cashed under the name Sharpe, Sharpe assumes his son Danny did it under Sydney's influence. After Sharpe tampers with Sydney's car, Danny happens to borrow her car and ends up in an accident.</p>\n",
-				"content_text": "<img src=\"https://cdn.uploads.micro.blog/63514/2025/fdd77ef41d.jpg\" />After Genele intercepts stolen bonds that Sharpe is trafficking, she arranges for Richard to cash them. Lance, Pilar and Danny believe that things are finally turning around for the winery. Genele has to pay hush money to a witness, but Richard has decided to keep all the money as revenge for Genele&#39;s past deceit. When Richard has the bonds cashed under the name Sharpe, Sharpe assumes his son Danny did it under Sydney&#39;s influence. After Sharpe tampers with Sydney&#39;s car, Danny happens to borrow her car and ends up in an accident.\n",
-				"date_published": "2024-12-16T10:21:17+01:00",
-				"url": "https://www.the-sprawl.blog/2024/12/16/falcon-crest-x-walking-money.html"
 			},
 			{
 				"id": "http://tabtwo.micro.blog/2024/01/21/na-wer-wei.html",
