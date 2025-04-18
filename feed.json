@@ -7,6 +7,22 @@
 	"items": [
 		
 			{
+				"id": "http://tabtwo.micro.blog/2025/04/18/vibecoding.html",
+				"title": "Vibe-Coding",
+				"content_html": "<p>Ich habe mir mit <a href=\"https://claude.ai\">claude.ai</a> s Hilfe ein kleines Tool gebaut um Geburtstage aus OSX Contacts in eine Remind-Datei zu exportieren. Keine Zeile Code von mir, alles nur per Prompt generiert und es tut was es soll.</p>\n<p>Zu finden hier: <a href=\"https://forgejo.mayer.rocks/public/contacts-to-remind\">forgejo.mayer.rocks/public/co&hellip;</a></p>\n<p>Wer remind nicht kennt, das ist DAS Schweizer Taschenmesser für Erinnerungen auf der Kommandozeile. Damit lassen sich auch Dinge machen, für die Cron an die Grenzen kommt. So was wie &ldquo;erinnere mich jeden dritten Dienstag, aber nur wenn kein Vollmond ist und keine Ferien&rdquo;</p>\n<p>Remind ist über 30 Jahre alt und wird noch immer gepflegt, siehe hier <a href=\"https://dianne.skoll.ca/projects/remind/\">dianne.skoll.ca/projects/&hellip;</a></p>\n",
+				"content_text": "Ich habe mir mit [claude.ai](https://claude.ai) s Hilfe ein kleines Tool gebaut um Geburtstage aus OSX Contacts in eine Remind-Datei zu exportieren. Keine Zeile Code von mir, alles nur per Prompt generiert und es tut was es soll.\n\nZu finden hier: [forgejo.mayer.rocks/public/co...](https://forgejo.mayer.rocks/public/contacts-to-remind)\n\nWer remind nicht kennt, das ist DAS Schweizer Taschenmesser für Erinnerungen auf der Kommandozeile. Damit lassen sich auch Dinge machen, für die Cron an die Grenzen kommt. So was wie \"erinnere mich jeden dritten Dienstag, aber nur wenn kein Vollmond ist und keine Ferien\"\n\nRemind ist über 30 Jahre alt und wird noch immer gepflegt, siehe hier [dianne.skoll.ca/projects/...](https://dianne.skoll.ca/projects/remind/) \n",
+				"date_published": "2025-04-18T14:28:36+02:00",
+				"url": "https://www.the-sprawl.blog/2025/04/18/vibecoding.html"
+			},
+			{
+				"id": "http://tabtwo.micro.blog/2025/04/18/mhhhh.html",
+				
+				"content_html": "<!-- raw HTML omitted -->\n",
+				"content_text": "<div class=\"media-gallery\">\n                                                    <img class=\"media-item\" src=\"https://www.the-sprawl.blog/uploads/2025/8nown3hh1u2m0kqeaavyachfk696g0zaemqp4dkn.jpg\" alt=\"\">\n                                            </div>\n                    <p style=\"padding:10px;\">Määääöhhhh!</p>\n",
+				"date_published": "2025-04-18T13:28:02+02:00",
+				"url": "https://www.the-sprawl.blog/2025/04/18/mhhhh.html"
+			},
+			{
 				"id": "http://tabtwo.micro.blog/2025/04/13/hotel-restaurant-brgerstble-halbzeit.html",
 				
 				"content_html": "<p>Hotel Restaurant Bürgerstüble. <a href=\"http://maps.apple.com/?ll=49.179291,9.506033\">📍</a></p>\n<p>Halbzeit</p>\n",
