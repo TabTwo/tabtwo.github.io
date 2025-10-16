@@ -7,6 +7,62 @@
 	"items": [
 		
 			{
+				"id": "http://tabtwo.micro.blog/2025/10/16/schnitzelknig-west-stuttgart.html",
+				
+				"content_html": "<div class=\"media-gallery\">\n                                                    <img class=\"media-item\" src=\"https://www.the-sprawl.blog/uploads/2025/fzklddcgch4b38qklcwv9z6bfzmsygmqnsxbyvoh.jpg\" alt=\"\">\n                                            </div>\n                    <p style=\"padding:10px;\">Schnitzelkönig West, Stuttgart</p>\n",
+				"content_text": "<div class=\"media-gallery\">\n                                                    <img class=\"media-item\" src=\"https://www.the-sprawl.blog/uploads/2025/fzklddcgch4b38qklcwv9z6bfzmsygmqnsxbyvoh.jpg\" alt=\"\">\n                                            </div>\n                    <p style=\"padding:10px;\">Schnitzelkönig West, Stuttgart</p>\n",
+				"date_published": "2025-10-16T18:41:49+02:00",
+				"url": "https://www.the-sprawl.blog/2025/10/16/schnitzelknig-west-stuttgart.html"
+			},
+			{
+				"id": "http://tabtwo.micro.blog/2025/10/05/heute-mal-maronen.html",
+				
+				"content_html": "<div class=\"media-gallery\">\n                                                    <img class=\"media-item\" src=\"https://www.the-sprawl.blog/uploads/2025/pm12an2d0onxqggfhrnathlqwty9zfyfdqdhznj6.jpg\" alt=\"\">\n                                            </div>\n                    <p style=\"padding:10px;\">Heute mal Maronen</p>\n",
+				"content_text": "<div class=\"media-gallery\">\n                                                    <img class=\"media-item\" src=\"https://www.the-sprawl.blog/uploads/2025/pm12an2d0onxqggfhrnathlqwty9zfyfdqdhznj6.jpg\" alt=\"\">\n                                            </div>\n                    <p style=\"padding:10px;\">Heute mal Maronen</p>\n",
+				"date_published": "2025-10-05T14:22:29+02:00",
+				"url": "https://www.the-sprawl.blog/2025/10/05/heute-mal-maronen.html"
+			},
+			{
+				"id": "http://tabtwo.micro.blog/2025/10/04/goldglnzender-rosenkfer-hat-uns-heute.html",
+				
+				"content_html": "<div class=\"media-gallery\">\n                                                    <img class=\"media-item\" src=\"https://www.the-sprawl.blog/uploads/2025/utkwu1fpqpexrux4qdq3wuzpqfnloz6x3rjjso0k.jpg\" alt=\"\">\n                                            </div>\n                    <p style=\"padding:10px;\">Goldglänzender Rosenkäfer, hat uns heute im Garten besucht. Wunderschöner grüngoldener Käfer.</p>\n",
+				"content_text": "<div class=\"media-gallery\">\n                                                    <img class=\"media-item\" src=\"https://www.the-sprawl.blog/uploads/2025/utkwu1fpqpexrux4qdq3wuzpqfnloz6x3rjjso0k.jpg\" alt=\"\">\n                                            </div>\n                    <p style=\"padding:10px;\">Goldglänzender Rosenkäfer, hat uns heute im Garten besucht. Wunderschöner grüngoldener Käfer.</p>\n",
+				"date_published": "2025-10-04T18:25:12+02:00",
+				"url": "https://www.the-sprawl.blog/2025/10/04/goldglnzender-rosenkfer-hat-uns-heute.html"
+			},
+			{
+				"id": "http://tabtwo.micro.blog/2025/09/30/back-to-the-basics.html",
+				"title": "Back to the basics",
+				"content_html": "<p>*** Start portmapper for RPC service, OK to fail if already running\n*** booting idled ***\n*** Start client/server ***</p>\n<p>PiDP-11 FP 2023</p>\n<p>PDP-11 simulator V4.0-0 Current  REALCONS build Sep 30 2025\nDisabling XQ\nSearching realcons controller &ldquo;11/70&rdquo; &hellip;\nConnecting to host localhost &hellip;</p>\n<h2 id=\"pidp-1170-boot-menu---set-sr-switches-depress-address-rotary-switch-to-reboot\">PiDP-11/70 boot menu - Set SR switches, depress address rotary switch to reboot</h2>\n<h2 id=\"0003----rt11----0106----unix6---1000----nankervis\">0000    idled   0004    dos11   0107    unix7   1001    idled\n0001    rsx11mplus      0102    211bsd  0113    sysiii  1002    blinky\n0002    rsts7   0105    unix5   0115    sysv\n0003    rt11    0106    unix6   1000    nankervis</h2>\n<h2 id=\"now-running-idled---set-sr0-7-for-desired-front-panel-patterns\">Now running IDLED - set SR0-7 for desired front panel patterns</h2>\n<p>Work in progress, hier ist die Seite zum Projekt: <a href=\"https://obsolescence.dev/pidp-11-building-instructions.html\">obsolescence.dev/pidp-11-b&hellip;</a></p>\n",
+				"content_text": "*** Start portmapper for RPC service, OK to fail if already running\n*** booting idled ***\n*** Start client/server ***\n\nPiDP-11 FP 2023\n\nPDP-11 simulator V4.0-0 Current  REALCONS build Sep 30 2025\nDisabling XQ\nSearching realcons controller \"11/70\" ...\nConnecting to host localhost ...\n\n\n\nPiDP-11/70 boot menu - Set SR switches, depress address rotary switch to reboot\n-------------------------------------------------------------------------------\n0000    idled   0004    dos11   0107    unix7   1001    idled\n0001    rsx11mplus      0102    211bsd  0113    sysiii  1002    blinky\n0002    rsts7   0105    unix5   0115    sysv\n0003    rt11    0106    unix6   1000    nankervis\n-------------------------------------------------------------------------------\n\nNow running IDLED - set SR0-7 for desired front panel patterns\n-------------------------------------------------------------------------------\n\n\nWork in progress, hier ist die Seite zum Projekt: [obsolescence.dev/pidp-11-b...](https://obsolescence.dev/pidp-11-building-instructions.html)\n",
+				"date_published": "2025-09-30T00:39:17+02:00",
+				"url": "https://www.the-sprawl.blog/2025/09/30/back-to-the-basics.html"
+			},
+			{
+				"id": "http://tabtwo.micro.blog/2025/09/29/ist-ja-nicht-so-dass.html",
+				
+				"content_html": "<p>Ist ja nicht so, dass Siri schon immer schlecht war, am Anfang war das sogar recht eindrucksvoll. Das Problem ist, dass Siri jetzt im Vergleich zu den aktuellen Tools ein absoluter Witz ist.</p>\n",
+				"content_text": "Ist ja nicht so, dass Siri schon immer schlecht war, am Anfang war das sogar recht eindrucksvoll. Das Problem ist, dass Siri jetzt im Vergleich zu den aktuellen Tools ein absoluter Witz ist. \n",
+				"date_published": "2025-09-29T18:00:08+02:00",
+				"url": "https://www.the-sprawl.blog/2025/09/29/ist-ja-nicht-so-dass.html"
+			},
+			{
+				"id": "http://tabtwo.micro.blog/2025/09/26/ikea.html",
+				
+				"content_html": "<div class=\"media-gallery\">\n                                                    <img class=\"media-item\" src=\"https://www.the-sprawl.blog/uploads/2025/lzgfiu7pnkcndjiuhlylwnc78bmlxxwexh2ycomx.jpg\" alt=\"\">\n                                            </div>\n                    <p style=\"padding:10px;\">Ikea</p>\n",
+				"content_text": "<div class=\"media-gallery\">\n                                                    <img class=\"media-item\" src=\"https://www.the-sprawl.blog/uploads/2025/lzgfiu7pnkcndjiuhlylwnc78bmlxxwexh2ycomx.jpg\" alt=\"\">\n                                            </div>\n                    <p style=\"padding:10px;\">Ikea</p>\n",
+				"date_published": "2025-09-26T16:40:24+02:00",
+				"url": "https://www.the-sprawl.blog/2025/09/26/ikea.html"
+			},
+			{
+				"id": "http://tabtwo.micro.blog/2025/09/20/kaum-tage-bis-lars-christbaum.html",
+				
+				"content_html": "<div class=\"media-gallery\">\n                                                    <img class=\"media-item\" src=\"https://www.the-sprawl.blog/uploads/2025/tbmhy78o4xiaxw9q1fc5on0kpqlqdzczhy72wzdn.jpg\" alt=\"\">\n                                            </div>\n                    <p style=\"padding:10px;\">kaum 100 Tage bis Lars Christbaum</p>\n",
+				"content_text": "<div class=\"media-gallery\">\n                                                    <img class=\"media-item\" src=\"https://www.the-sprawl.blog/uploads/2025/tbmhy78o4xiaxw9q1fc5on0kpqlqdzczhy72wzdn.jpg\" alt=\"\">\n                                            </div>\n                    <p style=\"padding:10px;\">kaum 100 Tage bis Lars Christbaum</p>\n",
+				"date_published": "2025-09-20T15:24:40+02:00",
+				"url": "https://www.the-sprawl.blog/2025/09/20/kaum-tage-bis-lars-christbaum.html"
+			},
+			{
 				"id": "http://tabtwo.micro.blog/2025/09/17/noch-was-fr-die-bingokarte.html",
 				
 				"content_html": "<p>Noch was für die Bingokarte: Sonnenaktivität nimmt unerwartet zu <a href=\"https://www.sciencealert.com/our-sun-is-becoming-more-active-and-nasa-doesnt-know-why\">www.sciencealert.com/our-sun-i&hellip;</a></p>\n",
@@ -49,24 +105,24 @@
 			{
 				"id": "http://tabtwo.micro.blog/2025/08/15/raubtierftterung.html",
 				
-				"content_html": "<div class=\"media-gallery\">\n                                                    <img class=\"media-item\" src=\"https://eu.uploads.micro.blog/63514/2025/vs1udjlbjzpe4siuoob0r7kb43gzl4l1l2s2z1p1.jpg\" alt=\"\">\n                                            </div>\n                    <p style=\"padding:10px;\">Raubtierfütterung</p>\n",
-				"content_text": "<div class=\"media-gallery\">\n                                                    <img class=\"media-item\" src=\"https://eu.uploads.micro.blog/63514/2025/vs1udjlbjzpe4siuoob0r7kb43gzl4l1l2s2z1p1.jpg\" alt=\"\">\n                                            </div>\n                    <p style=\"padding:10px;\">Raubtierfütterung</p>\n",
+				"content_html": "<div class=\"media-gallery\">\n                                                    <img class=\"media-item\" src=\"https://www.the-sprawl.blog/uploads/2025/vs1udjlbjzpe4siuoob0r7kb43gzl4l1l2s2z1p1.jpg\" alt=\"\">\n                                            </div>\n                    <p style=\"padding:10px;\">Raubtierfütterung</p>\n",
+				"content_text": "<div class=\"media-gallery\">\n                                                    <img class=\"media-item\" src=\"https://www.the-sprawl.blog/uploads/2025/vs1udjlbjzpe4siuoob0r7kb43gzl4l1l2s2z1p1.jpg\" alt=\"\">\n                                            </div>\n                    <p style=\"padding:10px;\">Raubtierfütterung</p>\n",
 				"date_published": "2025-08-15T17:31:56+02:00",
 				"url": "https://www.the-sprawl.blog/2025/08/15/raubtierftterung.html"
 			},
 			{
 				"id": "http://tabtwo.micro.blog/2025/08/05/selbstgemachte-rouladen-mit-kartoffelklsen.html",
 				
-				"content_html": "<div class=\"media-gallery\">\n                                                    <img class=\"media-item\" src=\"https://eu.uploads.micro.blog/63514/2025/snpjltppttdpl0npcmwofuemwtoiqskaubkbyuai.jpg\" alt=\"\">\n                                            </div>\n                    <p style=\"padding:10px;\">Selbstgemachte Rouladen mit Kartoffelklösen</p>\n",
-				"content_text": "<div class=\"media-gallery\">\n                                                    <img class=\"media-item\" src=\"https://eu.uploads.micro.blog/63514/2025/snpjltppttdpl0npcmwofuemwtoiqskaubkbyuai.jpg\" alt=\"\">\n                                            </div>\n                    <p style=\"padding:10px;\">Selbstgemachte Rouladen mit Kartoffelklösen</p>\n",
+				"content_html": "<div class=\"media-gallery\">\n                                                    <img class=\"media-item\" src=\"https://www.the-sprawl.blog/uploads/2025/snpjltppttdpl0npcmwofuemwtoiqskaubkbyuai.jpg\" alt=\"\">\n                                            </div>\n                    <p style=\"padding:10px;\">Selbstgemachte Rouladen mit Kartoffelklösen</p>\n",
+				"content_text": "<div class=\"media-gallery\">\n                                                    <img class=\"media-item\" src=\"https://www.the-sprawl.blog/uploads/2025/snpjltppttdpl0npcmwofuemwtoiqskaubkbyuai.jpg\" alt=\"\">\n                                            </div>\n                    <p style=\"padding:10px;\">Selbstgemachte Rouladen mit Kartoffelklösen</p>\n",
 				"date_published": "2025-08-05T20:40:55+02:00",
 				"url": "https://www.the-sprawl.blog/2025/08/05/selbstgemachte-rouladen-mit-kartoffelklsen.html"
 			},
 			{
 				"id": "http://tabtwo.micro.blog/2025/08/01/aus-der-abteilung-ki-fails.html",
 				
-				"content_html": "<p>Aus der Abteilung KI Fails. Heute: Sprachen sind immer ein Problem</p>\n<p><img src=\"https://eu.uploads.micro.blog/63514/2025/image1.jpg\" alt=\"\"></p>\n",
-				"content_text": "\nAus der Abteilung KI Fails. Heute: Sprachen sind immer ein Problem\n\n![](https://eu.uploads.micro.blog/63514/2025/image1.jpg)\n",
+				"content_html": "<p>Aus der Abteilung KI Fails. Heute: Sprachen sind immer ein Problem</p>\n<p><img src=\"https://www.the-sprawl.blog/uploads/2025/image1.jpg\" alt=\"\"></p>\n",
+				"content_text": "\nAus der Abteilung KI Fails. Heute: Sprachen sind immer ein Problem\n\n![](https://www.the-sprawl.blog/uploads/2025/image1.jpg)\n",
 				"date_published": "2025-08-01T15:24:06+02:00",
 				"url": "https://www.the-sprawl.blog/2025/08/01/aus-der-abteilung-ki-fails.html"
 			},
@@ -2253,8 +2309,8 @@
 			{
 				"id": "http://TabTwo.micro.blog/2022/03/12/end-of-book.html",
 				"title": "End of book - Change Agent",
-				"content_html": "<p>Finished reading: <a href=\"https://micro.blog/books/9781101984673\">Change Agent</a> by Daniel Suarez 📚</p>\n<p>I really like Daniels Suarezs books because they are science fiction. But a fiction that feels like its just around the corner. For example, the main character rents a self-driving car. Something that is described in the current reality as something very cool and car manufacturers dream about everybody wanting this. But Suarez goes deeper. He takes this topic and shows a possible future how this could evolve. Just a tiny detail in this fantastic story, but something that really stuck with me.</p>\n<p>If you like science fiction  but you are not into aliens and space travel because you read it all a dozen time, this might be a book for you.</p>\n<p>I really enjoyed reading it and I really hope degan is going to be a thing real soon.</p>\n",
-				"content_text": "Finished reading: [Change Agent](https://micro.blog/books/9781101984673) by Daniel Suarez 📚\n\nI really like Daniels Suarezs books because they are science fiction. But a fiction that feels like its just around the corner. For example, the main character rents a self-driving car. Something that is described in the current reality as something very cool and car manufacturers dream about everybody wanting this. But Suarez goes deeper. He takes this topic and shows a possible future how this could evolve. Just a tiny detail in this fantastic story, but something that really stuck with me.\n\nIf you like science fiction  but you are not into aliens and space travel because you read it all a dozen time, this might be a book for you. \n\nI really enjoyed reading it and I really hope degan is going to be a thing real soon.\n",
+				"content_html": "<img src=\"https://cdn.micro.blog/books/9781101984673/cover.jpg\" align=\"left\" class=\"microblog_book\" style=\"max-width: 60px; margin-right: 20px; margin-top: 0px; padding-top: 0px;\">\n<p>Finished reading: <a href=\"https://micro.blog/books/9781101984673\">Change Agent</a> by Daniel Suarez 📚</p>\n<p>I really like Daniels Suarezs books because they are science fiction. But a fiction that feels like its just around the corner. For example, the main character rents a self-driving car. Something that is described in the current reality as something very cool and car manufacturers dream about everybody wanting this. But Suarez goes deeper. He takes this topic and shows a possible future how this could evolve. Just a tiny detail in this fantastic story, but something that really stuck with me.</p>\n<p>If you like science fiction  but you are not into aliens and space travel because you read it all a dozen time, this might be a book for you.</p>\n<p>I really enjoyed reading it and I really hope degan is going to be a thing real soon.</p>\n",
+				"content_text": "<img src=\"https://cdn.micro.blog/books/9781101984673/cover.jpg\" align=\"left\" class=\"microblog_book\" style=\"max-width: 60px; margin-right: 20px; margin-top: 0px; padding-top: 0px;\">\n\nFinished reading: [Change Agent](https://micro.blog/books/9781101984673) by Daniel Suarez 📚\n\nI really like Daniels Suarezs books because they are science fiction. But a fiction that feels like its just around the corner. For example, the main character rents a self-driving car. Something that is described in the current reality as something very cool and car manufacturers dream about everybody wanting this. But Suarez goes deeper. He takes this topic and shows a possible future how this could evolve. Just a tiny detail in this fantastic story, but something that really stuck with me.\n\nIf you like science fiction  but you are not into aliens and space travel because you read it all a dozen time, this might be a book for you. \n\nI really enjoyed reading it and I really hope degan is going to be a thing real soon.\n",
 				"date_published": "2022-03-12T23:38:14+02:00",
 				"url": "https://www.the-sprawl.blog/2022/03/12/end-of-book.html"
 			},
