@@ -7,6 +7,14 @@
 	"items": [
 		
 			{
+				"id": "http://tabtwo.micro.blog/2026/01/20/portainer-vs-dockhand.html",
+				"title": "Portainer vs. Dockhand",
+				"content_html": "<p>Ich habe recht lange Portainer zur Verwaltung meiner kleinen Umgebung verwendet. Das ist ganz ok aber man merkt dass der Hersteller seine liebe Not hat bezahlende Kunden zu finden. Neben der Einschränkung der freien Version gab es gefühlt keine Weiterentwicklung. Dinge in dem Tool zu tun fühlt sich eher zäh an.</p>\n<p>Auftritt <a href=\"https://dockhand.pro/\">dockhand.pro</a>\nDockhand fühlt sich deutlich moderner an und ist auch schneller. Man findet sich sofort zurecht und kann Features problemlos nutzen.</p>\n<p>Die Installation und Migration der Container war in wenigen Stunden erledigt.</p>\n",
+				"content_text": "Ich habe recht lange Portainer zur Verwaltung meiner kleinen Umgebung verwendet. Das ist ganz ok aber man merkt dass der Hersteller seine liebe Not hat bezahlende Kunden zu finden. Neben der Einschränkung der freien Version gab es gefühlt keine Weiterentwicklung. Dinge in dem Tool zu tun fühlt sich eher zäh an. \n\nAuftritt [dockhand.pro](https://dockhand.pro/)\nDockhand fühlt sich deutlich moderner an und ist auch schneller. Man findet sich sofort zurecht und kann Features problemlos nutzen. \n\nDie Installation und Migration der Container war in wenigen Stunden erledigt. \n",
+				"date_published": "2026-01-20T14:14:58+01:00",
+				"url": "https://www.the-sprawl.blog/2026/01/20/portainer-vs-dockhand.html"
+			},
+			{
 				"id": "http://tabtwo.micro.blog/2026/01/18/sportheim-stein-am-kocher.html",
 				
 				"content_html": "<!-- raw HTML omitted -->\n",
