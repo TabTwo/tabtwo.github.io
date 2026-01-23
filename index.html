@@ -25,6 +25,73 @@
 	  <div class="h-entry">
 		
 
+		<a href="https://www.the-sprawl.blog/2026/01/23/in-der-azurewelt-ist-heute.html" class="u-url"><time class="dt-published" datetime="2026-01-23 19:59:54 &#43;0100">Jan 23, 2026</time></a>
+
+		<div class="e-content">
+			 <p>In der Azure-Welt ist heute wohl kein Sack Reis, sondern ein ganzes Datacenter (ungeplant) umgefallen. Respekt</p>
+
+		</div>
+	  </div>
+	
+	  <div class="h-entry">
+		
+			<h1><a href="https://www.the-sprawl.blog/2026/01/21/from-trakttv-to-orgmode-taking.html">From Trakt.tv to Org-mode: Taking Control of My Watch History</a></h1>
+		
+
+		<a href="https://www.the-sprawl.blog/2026/01/21/from-trakttv-to-orgmode-taking.html" class="u-url"><time class="dt-published" datetime="2026-01-21 23:45:51 &#43;0100">Jan 21, 2026</time></a>
+
+		<div class="e-content">
+			 <p>I&rsquo;ve been using <a href="https://trakt.tv">Trakt.tv</a> to track my movies and TV shows for years. It&rsquo;s great for automatic scrobbling and keeping a history, but I wanted something more personal—a way to see my media library in plain text that I could manage alongside my other notes in Emacs.</p>
+<p>So I built a simple Python script to convert my Trakt export into org-mode tables.</p>
+<h2 id="the-problem">The Problem</h2>
+<p>Trakt is excellent at what it does, but:</p>
+<ul>
+<li>It&rsquo;s a web app—I can&rsquo;t access it offline or integrate it with my local workflow</li>
+<li>I wanted to see at a glance which shows I&rsquo;ve dropped vs. which are still airing</li>
+<li>My watchlist was separate from my watch history, making it hard to see everything in one place</li>
+</ul>
+<h2 id="the-solution">The Solution</h2>
+<p>The converter pulls data from a Trakt JSON export and generates clean org-mode files:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-org" data-lang="org"><span style="color:#e6db74">| Name         | IMDB | Last Episode | Progress | Status   |</span>
+<span style="color:#e6db74">|--------------+------+--------------+----------+----------|</span>
+<span style="color:#e6db74">| Breaking Bad | IMDB | S05E16       | 62/62    | Complete |</span>
+<span style="color:#e6db74">| Black Mirror | IMDB | S06E01       | 22/32    | Watching |</span>
+<span style="color:#e6db74">| 30 Rock      | IMDB | S04E22       | 80/138   | Dropped  |</span>
+| Severance    | IMDB | S00E00       |          | Watchlist|
+</code></pre></div><p>The status column is the key feature. By fetching episode counts from TMDB, the script can tell me:</p>
+<ul>
+<li><strong>Complete</strong>: I&rsquo;ve watched everything</li>
+<li><strong>Watching</strong>: Show is still airing, I&rsquo;m caught up or working through it</li>
+<li><strong>Dropped</strong>: The show ended but I never finished it</li>
+<li><strong>Watchlist</strong>: Haven&rsquo;t started yet</li>
+</ul>
+<p>Movies get a simpler treatment—just title, IMDB link, last watched date, and whether it&rsquo;s watched or on my watchlist.</p>
+<h2 id="technical-details">Technical Details</h2>
+<p>The stack is minimal:</p>
+<ul>
+<li>Python with <code>httpx</code> for API calls</li>
+<li><code>python-dotenv</code> for config</li>
+<li>TMDB API for episode counts (free tier, responses cached locally)</li>
+</ul>
+<p>The whole thing runs with <code>uv run convert.py</code> and generates three files: <code>movies.org</code>, <code>shows.org</code>, and <code>collection.org</code>.</p>
+<p>One nice touch: personal Trakt lists automatically exclude items that appear in the main files, so there&rsquo;s no duplication.</p>
+<h2 id="whats-next">What&rsquo;s Next</h2>
+<p>For now, this is a one-way export. The org files are my read-only reference. But org-mode tables are easy to edit, so I could potentially:</p>
+<ul>
+<li>Add a &ldquo;Notes&rdquo; column for my thoughts on each show</li>
+<li>Use org-agenda to surface shows I should pick back up</li>
+<li>Build a simple sync back to Trakt (someday, maybe)</li>
+</ul>
+<p>The code is straightforward—about 400 lines of Python. Sometimes the best tool is the one you build yourself.</p>
+<hr>
+<p><em>The project is available on my <a href="https://forgejo.mayer.rocks/public/trakt-to-org">https://forgejo.mayer.rocks/public/trakt-to-org</a> Feel free to adapt it for your own Trakt exports.</em></p>
+
+		</div>
+	  </div>
+	
+	  <div class="h-entry">
+		
+
 		<a href="https://www.the-sprawl.blog/2026/01/21/heutige-news-irgendwo-in-der.html" class="u-url"><time class="dt-published" datetime="2026-01-21 18:21:06 &#43;0100">Jan 21, 2026</time></a>
 
 		<div class="e-content">
