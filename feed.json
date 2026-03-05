@@ -7,6 +7,14 @@
 	"items": [
 		
 			{
+				"id": "http://tabtwo.micro.blog/2026/03/05/eventdb-wieder-online.html",
+				"title": "eventdb wieder online",
+				"content_html": "<p>Jetzt wieder im Angebot: die Event-Tabelle aus dem ganz alten Blog mit Terminen zu Konferenze, Festivals und lokalem Kleinkram.</p>\n<p>Nach über acht Jahren habe ich die CSV-Tabelle und die Perl-Tools kurzerhand mit Claude umgebaut. &ldquo;Agentic Engineering&rdquo; heißt das heutzutage – und ist echt faszinierend. Das Tool ist jetzt in Python gebaut, die Datenquelle statt CSV (igitt) in <a href=\"https://www.gnu.org/software/recutils/manual/recutils.html\">Gnu Recutils</a>, und die Tabelle wird als plain HTML rausgerendert.</p>\n<p>Das wirklich Faszinierende ist aber das Aktualisieren der Events. Vor zehn Jahren war das ein manueller Prozess: regelmäßig die Webseiten aufrufen und von Hand übertragen. Heute sage ich einfach Claude, er soll die Liste durchgehen und aktualisieren. Eine halbe Stunde später ist das fertig – ohne einen aufwendigen Scraper zu bauen.</p>\n<p>Zu finden unter <a href=\"https://eventdb.mayer.rocks/\">https://eventdb.mayer.rocks/</a>, ein ICS-Feed ist auch vorhanden.</p>\n",
+				"content_text": "Jetzt wieder im Angebot: die Event-Tabelle aus dem ganz alten Blog mit Terminen zu Konferenze, Festivals und lokalem Kleinkram.\n\nNach über acht Jahren habe ich die CSV-Tabelle und die Perl-Tools kurzerhand mit Claude umgebaut. \"Agentic Engineering\" heißt das heutzutage – und ist echt faszinierend. Das Tool ist jetzt in Python gebaut, die Datenquelle statt CSV (igitt) in [Gnu Recutils](https://www.gnu.org/software/recutils/manual/recutils.html), und die Tabelle wird als plain HTML rausgerendert.\n\nDas wirklich Faszinierende ist aber das Aktualisieren der Events. Vor zehn Jahren war das ein manueller Prozess: regelmäßig die Webseiten aufrufen und von Hand übertragen. Heute sage ich einfach Claude, er soll die Liste durchgehen und aktualisieren. Eine halbe Stunde später ist das fertig – ohne einen aufwendigen Scraper zu bauen.\n\nZu finden unter [https://eventdb.mayer.rocks/](https://eventdb.mayer.rocks/), ein ICS-Feed ist auch vorhanden.\n",
+				"date_published": "2026-03-05T19:28:06+01:00",
+				"url": "https://www.the-sprawl.blog/2026/03/05/eventdb-wieder-online.html"
+			},
+			{
 				"id": "http://tabtwo.micro.blog/2026/03/03/shout-out-an-die-regierung.html",
 				
 				"content_html": "<p>Shout out an die Regierung von Britisch Colombia, die haben nämlich die Abschaffung der Zeitumstellung beschlossen! Hier der Link zu einem <a href=\"https://www.cbc.ca/news/canada/british-columbia/b-c-adopting-year-round-daylight-time-9.7111657\">Zeitungsbericht</a>.</p>\n<p>Edit: Gerade erst gesehen, die sind jetzt dauerhaft auf Sommerzeit, das ist dann halt auch Quatsch</p>\n",
