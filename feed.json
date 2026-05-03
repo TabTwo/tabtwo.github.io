@@ -7,6 +7,14 @@
 	"items": [
 		
 			{
+				"id": "http://tabtwo.micro.blog/2026/05/03/bill-holbrook-bringt-meine-stimmung.html",
+				
+				"content_html": "<p>Bill Holbrook bringt meine Stimmung mit dem heutigen Strip von <a href=\"https://www.kevinandkell.com/\">Kevin &amp; Kell</a> ganz gut auf den Punkt. Wohin sol dieser ganze Mist im nahen Osten noch führen? Produktionseinschränkungen und vor allem massive Preissteigerungen bei Helium, Schwefel, Dünger, Kupfer, alle Öl-Derivate von Erdgas über Nafta bis zu schwerem Öl. Das heisst, die letzte Chip-Krise und die Gas-Notlage wird da nur ein sehr laues Lüftchen sein gegen das was da an Ernte- Produktionsausfällen auf die Welt zukommt.\nAber hey, Deutschland sorgt sich über den Flug im kommenden Sommerurlaub während das eigentlich Problem Diesel sein wird ohne den es keine Logistik gibt und auch keine Landwirtschaft.</p>\n<p>Wird ein spannendes Jahr mal wieder.</p>\n",
+				"content_text": "Bill Holbrook bringt meine Stimmung mit dem heutigen Strip von [Kevin & Kell](https://www.kevinandkell.com/) ganz gut auf den Punkt. Wohin sol dieser ganze Mist im nahen Osten noch führen? Produktionseinschränkungen und vor allem massive Preissteigerungen bei Helium, Schwefel, Dünger, Kupfer, alle Öl-Derivate von Erdgas über Nafta bis zu schwerem Öl. Das heisst, die letzte Chip-Krise und die Gas-Notlage wird da nur ein sehr laues Lüftchen sein gegen das was da an Ernte- Produktionsausfällen auf die Welt zukommt.\nAber hey, Deutschland sorgt sich über den Flug im kommenden Sommerurlaub während das eigentlich Problem Diesel sein wird ohne den es keine Logistik gibt und auch keine Landwirtschaft.\n\nWird ein spannendes Jahr mal wieder.\n",
+				"date_published": "2026-05-03T11:51:03+02:00",
+				"url": "https://www.the-sprawl.blog/2026/05/03/bill-holbrook-bringt-meine-stimmung.html"
+			},
+			{
 				"id": "http://tabtwo.micro.blog/2026/04/24/mastodon-migration.html",
 				"title": "Mastodon Migration",
 				"content_html": "<p>Aktuell migriere ich meine Single-user Instanz von der Software Mastodon auf <a href=\"https://gotosocial.org/\">GoToSocial</a> um.</p>\n",
@@ -66,7 +74,7 @@
 				"id": "http://tabtwo.micro.blog/2026/03/08/cpreisfrage-seit-wann-bin-ich.html",
 				
 				"content_html": "<p>cPreisfrage: seit wann bin ich Claude User?</p>\n<!-- raw HTML omitted -->\n",
-				"content_text": "cPreisfrage: seit wann bin ich Claude User?\n\n<img src=\"uploads/2026/forgejo-streak.png\" width=\"600\" height=\"123\" alt=\"\">\n",
+				"content_text": "cPreisfrage: seit wann bin ich Claude User?\n\n<img src=\"https://eu.uploads.micro.blog/63514/2026/forgejo-streak.png\" width=\"600\" height=\"123\" alt=\"\">\n",
 				"date_published": "2026-03-08T11:13:43+02:00",
 				"url": "https://www.the-sprawl.blog/2026/03/08/cpreisfrage-seit-wann-bin-ich.html"
 			},
