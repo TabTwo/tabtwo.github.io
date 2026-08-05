@@ -24,6 +24,88 @@
 	
 	  <div class="h-entry">
 		
+			<h1><a href="https://www.the-sprawl.blog/2026/08/05/two-servers-two-domains-and.html">Two servers, two domains, and a very long way to 100%</a></h1>
+		
+
+		<a href="https://www.the-sprawl.blog/2026/08/05/two-servers-two-domains-and.html" class="u-url"><time class="dt-published" datetime="2026-08-05 23:29:30 &#43;0200">Aug 5, 2026</time></a>
+
+		<div class="e-content">
+			 <p><a href="2026-08-04-jabber-matrix-and-four-bug-reports.md">Yesterday</a> I concluded that ejabberd-for-Matrix isn&rsquo;t ready, and that for plain XMPP my Prosody 13 setup is actually <em>ahead</em>. Fair. But the <a href="https://www.ejabberd.im/">ejabberd</a> YunoHost app still needed to exist — properly, catalog-quality — for the day that Matrix gateway bug gets fixed, and because choice is good. A half-finished packaging experiment isn&rsquo;t a real option.</p>
+<p>So today&rsquo;s job was to take the app from &ldquo;installs on my test box if I hold its hand&rdquo; to &ldquo;a stranger could install this and it just works.&rdquo; The only honest way to prove that is a clean room: fresh servers, fresh domains, nobody&rsquo;s thumb on the scale. I paired with <strong>Claude</strong> again, and my partner spun up two throwaway Debian boxes on Hetzner — <code>anton.this-is-system-a.de</code> and <code>bieber.this-is-system-b.de</code>, two <em>separate</em> real domains, DNS at Porkbun. Two domains, not one, on purpose: you can&rsquo;t test <strong>federation</strong> with a single server.</p>
+<h2 id="the-headline">The headline</h2>
+<p>From two bare Debian installs to two YunoHost servers, each running ejabberd, each with a real Let&rsquo;s Encrypt certificate — and:</p>
+<ul>
+<li><strong>Both servers score 100% on the XMPP Compliance Suite</strong> — <a href="https://compliance.conversations.im/server/anton.this-is-system-a.de/">anton</a> <em>and</em> <a href="https://compliance.conversations.im/server/bieber.this-is-system-b.de/">bieber</a> — on <em>clean installs</em>, with <strong>zero</strong> manual fixups. Not a fluke on one box: two independent installs, same perfect score. (My own long-running server took a trail of hand-edits to get there; these just arrived.)</li>
+<li><strong>A message from <code>alice@anton</code> landed in <code>bob@bieber</code>&rsquo;s mailbox</strong> — across two domains, server-to-server, over TLS. Real federation, not a loopback trick.</li>
+</ul>
+<p>That&rsquo;s the whole thesis of a good XMPP server: speak the modern protocol correctly, and talk to <em>other</em> servers. Both, on a clean install. That&rsquo;s the day&rsquo;s win.</p>
+<h2 id="the-bit-im-quietly-proud-of-dns-that-configures-itself">The bit I&rsquo;m quietly proud of: DNS that configures itself</h2>
+<p>XMPP needs SRV records so clients and other servers can find it — including the <code>_xmpps</code> direct-TLS ones that basically nothing sets up for you. On my old server I typed those in by hand at the registrar, and watched them flap. This time the app <strong>declares its own DNS records</strong>, so YunoHost&rsquo;s <code>domain dns suggest</code> just <em>knows</em> about them, and <code>domain dns push</code> sends them to the registrar. Set up a domain, push, done. That&rsquo;s the difference between &ldquo;installs&rdquo; and &ldquo;installs and configures itself.&rdquo;</p>
+<h2 id="except-when-the-registrar-push-is-broken">…except when the registrar push is broken</h2>
+<p>Which is where the day earned its bug reports. YunoHost&rsquo;s Porkbun push cheerfully created the A, CNAME and TXT records — and then returned <strong><code>400 Bad Request</code> for every single MX and SRV record</strong>. Every one. On our test domains <em>and</em>, it turns out, on another of my servers, for all its domains.</p>
+<p>We traced it: Porkbun&rsquo;s API wants a record&rsquo;s priority in its own <code>prio</code> field, but YunoHost hands it the priority glued to the front of the record content (<code>&quot;0 5 5223 host.&quot;</code>), which Porkbun rejects. So any Porkbun user&rsquo;s mail (MX) and service records (SRV — XMPP, Matrix, SIP, you name it) silently fail to publish. That&rsquo;s not a niche edge case; that&rsquo;s &ldquo;your mail and chat DNS don&rsquo;t get set up.&rdquo;</p>
+<p>So it went where it belongs — and this time with a fix attached:</p>
+<ul>
+<li>🐛 <strong><a href="https://github.com/YunoHost/issues/issues/2830">YunoHost #2830</a></strong> — the full root-cause analysis and reproduction</li>
+<li>🔧 <strong><a href="https://github.com/dns-lexicon/dns-lexicon/pull/102">dns-lexicon #102</a></strong> — a pull request that splits the priority into Porkbun&rsquo;s <code>prio</code> field, fixing MX and SRV</li>
+</ul>
+<p>And a bonus gremlin: on Debian 13 the <code>sury_php</code> signing key ships readable only by root, so apt&rsquo;s verifier can&rsquo;t read it — which quietly breaks <em>every</em> app install at the dependency step until you <code>chmod</code> it. Not ours, but it&rsquo;ll bite anyone on that release. One more to write up.</p>
+<h2 id="the-part-where-the-server-locked-me-out">The part where the server locked me out</h2>
+<p>Now the comedy, because it wasn&rsquo;t all triumphant. To do any of this, you need to <em>get into</em> the servers — and YunoHost, sensibly, hardens SSH the moment it finishes installing. My partner set up an admin user beforehand… as a plain Unix user, which YunoHost&rsquo;s tightened SSH politely refuses. Then a pile of retry attempts tripped <strong>fail2ban</strong>, which banned us at the firewall. Then the console rescue needs a root password that a fresh cloud image doesn&rsquo;t have. We reimaged. Twice.</p>
+<p>What finally worked was almost poetic: boot the boxes into <strong>Hetzner&rsquo;s rescue system</strong>, mount the disk from the outside, and hand-edit the one line in the SSH config that decides who&rsquo;s allowed in — then reboot back. Off-machine surgery to reopen the front door. Every step of that saga is now written into notes so neither of us repeats it. Ops is humbling; the trick is to only learn each lesson once.</p>
+<h2 id="where-this-leaves-things">Where this leaves things</h2>
+<p>The ejabberd app is real now — not &ldquo;works on my machine,&rdquo; but <em>validated on a clean install, on real infrastructure, at 100%, federating with a second server.</em> It&rsquo;s ready to put in front of the YunoHost catalog.</p>
+<p>The running tally of things that got better because we poked at them: yesterday&rsquo;s <a href="2026-08-04-jabber-matrix-and-four-bug-reports.md">four reports</a> about ejabberd, Debian and Prosody; today a YunoHost DNS bug <strong>and its fix</strong>, plus a Debian packaging gremlin. None of that was the goal. It&rsquo;s just what falls out when you insist on testing the boring path — a fresh install, on a fresh domain — instead of the demo that always works.</p>
+<p>Two servers. Two domains. A hundred percent. Eventually.</p>
+
+		</div>
+	  </div>
+	
+	  <div class="h-entry">
+		
+			<h1><a href="https://www.the-sprawl.blog/2026/08/04/can-one-server-speak-both.html">Can one server speak both Jabber and Matrix?</a></h1>
+		
+
+		<a href="https://www.the-sprawl.blog/2026/08/04/can-one-server-speak-both.html" class="u-url"><time class="dt-published" datetime="2026-08-04 22:39:21 &#43;0200">Aug 4, 2026</time></a>
+
+		<div class="e-content">
+			 <p>Yesterday I <a href="2026-08-03-coming-home-to-jabber.md">came home to Jabber</a> — my own XMPP server, <code>ralph@mayer.rocks</code>, passing the compliance suite. But I run more than XMPP. There&rsquo;s a Matrix homeserver (Synapse) too, with bridges puppeting Signal and WhatsApp into it. It&rsquo;s a lot of moving parts for &ldquo;sending messages to people.&rdquo;</p>
+<p>So today&rsquo;s question was bigger: <strong>could a single server do it all?</strong> <a href="https://www.ejabberd.im/">ejabberd</a> is an XMPP server like Prosody — but it also ships an experimental <em>Matrix gateway</em>. If that works, one server could speak Jabber to the XMPP world <strong>and</strong> federate with Matrix. That would let me retire a whole box.</p>
+<p>I paired with <strong>Claude</strong> again, spun up two throwaway VMs — one running ejabberd, one running YunoHost with Prosody 13 — and started poking.</p>
+<h2 id="the-moment-a-message-crossed-the-streams">The moment a message crossed the streams</h2>
+<p>The headline first, because it genuinely made me grin: <strong>an XMPP account sent a direct message to my Matrix account, and it arrived in Element.</strong> No bridge, no puppeting — ejabberd&rsquo;s gateway federated straight to my Matrix server and delivered it. XMPP and Matrix are completely different protocols, and here was a message hopping cleanly from one to the other. That&rsquo;s the kind of interoperability the open web is supposed to have and mostly doesn&rsquo;t.</p>
+<p>But it was fragile. On the ejabberd that Debian ships, <em>every</em> outbound Matrix message crashed instead. We chased it down to a real bug: Debian builds ejabberd against a newer Erlang (OTP 27) whose new JSON encoder rejects the data format the Matrix gateway produces. On the older Erlang that ejabberd&rsquo;s own builds bundle (OTP 26), it works fine. Same code, different runtime, completely different outcome.</p>
+<p>So that got written up and sent where it belongs:</p>
+<ul>
+<li>🐛 <strong><a href="https://github.com/processone/ejabberd/issues/4602">ejabberd upstream #4602</a></strong> — with the full crash analysis</li>
+<li>🐛 <strong><a href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1143612">Debian #1143612</a></strong> — the downstream packaging side</li>
+</ul>
+<h2 id="the-verdict-not-yet">The verdict: not yet</h2>
+<p>As much as I wanted the &ldquo;one server&rdquo; answer, the honest verdict is <strong>not yet</strong>. ejabberd&rsquo;s Matrix gateway is experimental and, on the current Debian/Erlang combo, broken. And for plain XMPP, Prosody 13 is actually <em>ahead</em> — it ships the modern authentication stack (SASL2, Bind2, channel binding) that Debian&rsquo;s ejabberd can&rsquo;t currently offer. Replacing Prosody would be a step backward.</p>
+<p>So: keep Prosody for XMPP, keep an eye on ejabberd-for-Matrix, and revisit once that bug is fixed upstream. I wrote the whole comparison up as a decision doc so future-me doesn&rsquo;t have to re-derive it.</p>
+<h2 id="hardening-what-i-already-have">Hardening what I already have</h2>
+<p>Prosody 13 has that shiny modern auth stack — but it isn&rsquo;t switched on by default in the YunoHost package. Flipping it on made my server advertise <strong>SASL2</strong> and <strong>channel binding</strong> (the mechanism that detects a man-in-the-middle even when they hold a &ldquo;valid&rdquo; certificate). Naturally, that went upstream too:</p>
+<ul>
+<li>🔧 <strong><a href="https://github.com/YunoHost-Apps/prosody_ynh/pull/80">prosody_ynh #80</a></strong> — enable the Prosody 13 SASL2 stack (tested end-to-end on a real install)</li>
+</ul>
+<h2 id="the-wall-i-hit">The wall I hit</h2>
+<p>Here&rsquo;s the twist. I turned on channel binding… and it still can&rsquo;t actually be <em>used</em>. Channel binding rides on <strong>SCRAM</strong>, a way of proving your password without ever sending it to the server. And YunoHost — like a lot of directory-backed setups — can&rsquo;t do SCRAM. It stores your password as a one-way hash and checks logins with a classic LDAP &ldquo;bind,&rdquo; which means the server only ever sees the plaintext (<code>PLAIN</code>, protected by TLS). There&rsquo;s simply nowhere for the SCRAM secret to live.</p>
+<p>That&rsquo;s not a Prosody problem or an ejabberd problem — it&rsquo;s baked into how the whole platform stores credentials. So rather than hack around it, I filed a clear, evidence-backed question to the people who can actually fix it:</p>
+<ul>
+<li>❓ <strong><a href="https://github.com/YunoHost/issues/issues/2829">YunoHost #2829</a></strong> — is SCRAM-capable credential storage on the roadmap?</li>
+</ul>
+<p>(There was a request for this back in 2020 that got closed because nobody could explain concretely what was broken. This time it comes with the actual blockers, the actual impact, and three concrete paths forward.)</p>
+<h2 id="four-contributions-in-a-day">Four contributions in a day</h2>
+<p>I didn&rsquo;t end the day with one server to rule them all. I ended it with two bug reports, a pull request, and a feature request — and a much clearer map of what&rsquo;s actually possible.</p>
+<p>And honestly, that&rsquo;s the better outcome. The fantasy of collapsing everything onto one box is seductive, but the real win is the open network getting a little sturdier: a Matrix bug that&rsquo;ll get fixed, an XMPP package that&rsquo;ll ship modern auth, and a platform question that&rsquo;s finally stated clearly enough to answer.</p>
+<p>That, and a message that crossed from Jabber to Matrix and landed in my pocket. Some days that&rsquo;s enough.</p>
+<p><em>(The unglamorous footnote: getting here involved locking myself out of a test box more times than I&rsquo;ll admit, a password only a robot knew, and an SSH agent that kept going to sleep. &ldquo;Standing up a server&rdquo; is never just clicking install. It never was.)</em></p>
+
+		</div>
+	  </div>
+	
+	  <div class="h-entry">
+		
 			<h1><a href="https://www.the-sprawl.blog/2026/08/03/coming-home-to-jabber.html">Coming home to Jabber</a></h1>
 		
 
@@ -45,6 +127,7 @@
 <p>-&gt;  <strong><a href="https://github.com/YunoHost-Apps/prosody_ynh/pull/79">YunoHost-Apps/prosody_ynh #79</a></strong></p>
 <p>That&rsquo;s the whole point of the open network, really. You don&rsquo;t just consume it — you leave it a little better than you found it.</p>
 <p>So: if you&rsquo;re on XMPP, add me — <strong><code>ralph@mayer.rocks</code></strong>. And if you&rsquo;re not… maybe it&rsquo;s time to come home too.</p>
+<p><a href='https://compliance.conversations.im/server/mayer.rocks'><img src='https://compliance.conversations.im/badge/mayer.rocks'></a></p>
 
 		</div>
 	  </div>
@@ -96,7 +179,7 @@ Kommen eigentlich im Mittelmeerraum vor, dank Klimawandel ist es auch hier warm 
 
 		<div class="e-content">
 			 <p>Pidp 11/70 passt schon mal ins Gehäuse</p>
-<img src="uploads/2026/319f1da46b4b43e4a37e70a0307d3b7e.jpg" width="450" height="600" alt="">
+<img src="https://eu.uploads.micro.blog/63514/2026/319f1da46b4b43e4a37e70a0307d3b7e.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -108,7 +191,7 @@ Kommen eigentlich im Mittelmeerraum vor, dank Klimawandel ist es auch hier warm 
 
 		<div class="e-content">
 			 <p>Pidp 11/70 geht weiter</p>
-<img src="https://eu.uploads.micro.blog/63514/2026/60c1aa18d2cc4efdb3bf4669c2c4cfcf.jpg" width="450" height="600" alt="">
+<img src="uploads/2026/60c1aa18d2cc4efdb3bf4669c2c4cfcf.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -120,7 +203,7 @@ Kommen eigentlich im Mittelmeerraum vor, dank Klimawandel ist es auch hier warm 
 
 		<div class="e-content">
 			 <p>Blödes Gefühl da drauf zu stehen</p>
-<img src="https://eu.uploads.micro.blog/63514/2026/c37187afbdee4597b299aee3b9c3e767.jpg" width="450" height="600" alt="">
+<img src="uploads/2026/c37187afbdee4597b299aee3b9c3e767.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -143,7 +226,7 @@ Kommen eigentlich im Mittelmeerraum vor, dank Klimawandel ist es auch hier warm 
 
 		<div class="e-content">
 			 <p>PiDP-11/70</p>
-<img src="https://eu.uploads.micro.blog/63514/2026/d59199bbf5b44ec293a9d3bc5d015d99.jpg" width="450" height="600" alt="">
+<img src="uploads/2026/d59199bbf5b44ec293a9d3bc5d015d99.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -166,7 +249,7 @@ Kommen eigentlich im Mittelmeerraum vor, dank Klimawandel ist es auch hier warm 
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2026/ue1laniiyvcqserfehzz290gpixpajikmimqhxbz.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2026/ue1laniiyvcqserfehzz290gpixpajikmimqhxbz.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Irgendeine Bremse mit riesigen orangenen Augen.</p>
 
@@ -235,7 +318,7 @@ Kommen eigentlich im Mittelmeerraum vor, dank Klimawandel ist es auch hier warm 
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2026/navcpwnoru7ybybfq1ejer6aqssc8lni5m4fhl0b.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2026/navcpwnoru7ybybfq1ejer6aqssc8lni5m4fhl0b.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Sommerrolle</p>
 
@@ -260,7 +343,7 @@ Kommen eigentlich im Mittelmeerraum vor, dank Klimawandel ist es auch hier warm 
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2026/6d1efv6w49vtqzzem3vcnwuxsygehexv5nlbqwxm.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2026/6d1efv6w49vtqzzem3vcnwuxsygehexv5nlbqwxm.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Dönerstag</p>
 
@@ -319,7 +402,7 @@ Hello #lemmy</p>
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2026/hlhhvz38iwtmzzygxua3leb1ikdbknveeck0m4jn.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2026/hlhhvz38iwtmzzygxua3leb1ikdbknveeck0m4jn.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Triple B in <a href="https://pixelfed.mayer.rocks/discover/tags/Zuffenhausen?src=hash" title="#Zuffenhausen" class="u-url hashtag" rel="external nofollow noopener">#Zuffenhausen</a><br />
 <br />
@@ -359,7 +442,7 @@ Hello #lemmy</p>
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2026/b5xdgk2ouuvrevyqcem94oapxkwvlbllt46aem2d.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2026/b5xdgk2ouuvrevyqcem94oapxkwvlbllt46aem2d.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">erster Rhabarber-Kuchen der Saison</p>
 
@@ -373,7 +456,7 @@ Hello #lemmy</p>
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2026/4ulotxsbjh6qsfhqnifafetdcsf0ik8z0g75boeq.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2026/4ulotxsbjh6qsfhqnifafetdcsf0ik8z0g75boeq.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Hornissenkönigin auf der Suche nach einem Nistplatz.  In meinem Schuh war nicht genügend Platz.</p>
 
@@ -413,7 +496,7 @@ Aber hey, Deutschland sorgt sich über den Flug im kommenden Sommerurlaub währe
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2026/gwnuncf7kh9ajq15dd1kh7o1aaogmx1ancddgx0b.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2026/gwnuncf7kh9ajq15dd1kh7o1aaogmx1ancddgx0b.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Einfach mal chillen <a href="https://pixelfed.mayer.rocks/discover/tags/Wilhelma?src=hash" title="#Wilhelma" class="u-url hashtag" rel="external nofollow noopener">#Wilhelma</a></p>
 
@@ -450,7 +533,7 @@ Und ja, der #Klimawandel trägt, wie üblich, auch seinen Teil dazubei</p>
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2026/goimpuxcyozxw8ykb0wzmorplykoyvhh3yf0gjwz.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2026/goimpuxcyozxw8ykb0wzmorplykoyvhh3yf0gjwz.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Kleiner Mitbewohner, eine Speispinne Scytodes thoracica. Hübsch aber nur ca. 6 mm lang</p>
 
@@ -501,7 +584,7 @@ Allerdings kann man den Träger recht einfach aufschrauben. Es hat gereicht den 
 
 		<div class="e-content">
 			 <p>cPreisfrage: seit wann bin ich Claude User?</p>
-<img src="https://eu.uploads.micro.blog/63514/2026/forgejo-streak.png" width="600" height="123" alt="">
+<img src="uploads/2026/forgejo-streak.png" width="600" height="123" alt="">
 
 		</div>
 	  </div>
@@ -542,7 +625,7 @@ Allerdings kann man den Träger recht einfach aufschrauben. Es hat gereicht den 
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2026/d9q2j68k36kojuqdgubshtusk7rqhpecmxaulihn.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2026/d9q2j68k36kojuqdgubshtusk7rqhpecmxaulihn.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Lecker Ente im <a href="https://heng-amani.com/" rel="external nofollow noopener" target="_blank">https://heng-amani.com/</a><br />
 <br />
@@ -598,7 +681,7 @@ Sehr empfehlenswert!<br />
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2026/ap3bdewnhg8suhln3djczthjoy4moioenx648olb.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2026/ap3bdewnhg8suhln3djczthjoy4moioenx648olb.jpg" alt="">
                                             </div>
                     <p style="padding:10px;"><a href="https://pixelfed.mayer.rocks/discover/tags/Schnee?src=hash" title="#Schnee" class="u-url hashtag" rel="external nofollow noopener">#Schnee</a> wie seit Jahrzehnten nicht</p>
 
@@ -649,7 +732,7 @@ Sehr empfehlenswert!<br />
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2026/gg84vy4303m49pjblcctwrvb1op3jm17bwug5nib.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2026/gg84vy4303m49pjblcctwrvb1op3jm17bwug5nib.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Grüße aus dem Schlachthof <a href="https://pixelfed.mayer.rocks/discover/tags/Stuttgart?src=hash" title="#Stuttgart" class="u-url hashtag" rel="external nofollow noopener">#Stuttgart</a></p>
 
@@ -663,7 +746,7 @@ Sehr empfehlenswert!<br />
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2026/4xfzxs59ohx0bcu0tnut8wueprr6iet6enypsyqo.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2026/4xfzxs59ohx0bcu0tnut8wueprr6iet6enypsyqo.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Annis wilde Tierabenteuer in <a href="https://pixelfed.mayer.rocks/discover/tags/Esslingen?src=hash" title="#Esslingen" class="u-url hashtag" rel="external nofollow noopener">#Esslingen</a></p>
 
@@ -755,7 +838,7 @@ Sehr empfehlenswert!<br />
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2026/flqdjmedcxupfpgybxkv4gayjg2pm13jaobpjn3o.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2026/flqdjmedcxupfpgybxkv4gayjg2pm13jaobpjn3o.jpg" alt="">
                                             </div>
                     <p style="padding:10px;"><a href="https://pixelfed.mayer.rocks/discover/tags/etwasmitholz?src=hash" title="#etwasmitholz" class="u-url hashtag" rel="external nofollow noopener">#etwasmitholz</a></p>
 
@@ -785,7 +868,7 @@ Dockhand fühlt sich deutlich moderner an und ist auch schneller. Man findet sic
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2026/ohsjgwgp1zxu61ll6tydrw0a1ckwa3lxuszo8tjo.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2026/ohsjgwgp1zxu61ll6tydrw0a1ckwa3lxuszo8tjo.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Sportheim Stein am Kocher</p>
 
@@ -799,7 +882,7 @@ Dockhand fühlt sich deutlich moderner an und ist auch schneller. Man findet sic
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2026/xqhv3tsegevtgipsdibm9eldkwzq1xoyzqcvzpe9.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2026/xqhv3tsegevtgipsdibm9eldkwzq1xoyzqcvzpe9.jpg" alt="">
                                             </div>
                     <p style="padding:10px;"><a href="https://pixelfed.mayer.rocks/discover/tags/SchnitzelS?src=hash" title="#SchnitzelS" class="u-url hashtag" rel="external nofollow noopener">#SchnitzelS</a> im Lautenschlager</p>
 
@@ -1036,7 +1119,7 @@ uv run check_reviews.py /path/to/your/docs
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/vftpnwt279blxjmtw0tto52pob0r3nodckovtykc.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/vftpnwt279blxjmtw0tto52pob0r3nodckovtykc.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Zuckerwatte und Bähnle fahren - Glückliche Kinder auf dem Weihnachtsmarkt Öhringen</p>
 
@@ -1050,7 +1133,7 @@ uv run check_reviews.py /path/to/your/docs
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/ltkiccfstimubsgmfjnkugnurvrbjdj9z4ipnafj.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/ltkiccfstimubsgmfjnkugnurvrbjdj9z4ipnafj.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Schwäbisches Ramen</p>
 
@@ -1064,7 +1147,7 @@ uv run check_reviews.py /path/to/your/docs
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/o7mk6khwjua4xrjfvqyohvhz5obtwsc0d0uelzlb.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/o7mk6khwjua4xrjfvqyohvhz5obtwsc0d0uelzlb.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Experimenta Heilbronn</p>
 
@@ -1090,7 +1173,7 @@ uv run check_reviews.py /path/to/your/docs
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/prf3op56zfky6ix5ihlbzdvipgv4dyehepzlc5wi.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/prf3op56zfky6ix5ihlbzdvipgv4dyehepzlc5wi.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Quittenbrot Trockung</p>
 
@@ -1104,7 +1187,7 @@ uv run check_reviews.py /path/to/your/docs
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/ewdkzeleqgstcvo9q9k3lp4uwqhf1byb5ozrq9im.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/ewdkzeleqgstcvo9q9k3lp4uwqhf1byb5ozrq9im.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Quittenbrot in the making</p>
 
@@ -1130,7 +1213,7 @@ uv run check_reviews.py /path/to/your/docs
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/h6cpydx2drvltdbqgtt3hykapd02yhexiyqi2ofj.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/h6cpydx2drvltdbqgtt3hykapd02yhexiyqi2ofj.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Quittengelee, richtig lecker</p>
 
@@ -1144,7 +1227,7 @@ uv run check_reviews.py /path/to/your/docs
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/hbbv5pjijuhdtrwngdwcbikilr4j9okcflkqzchk.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/hbbv5pjijuhdtrwngdwcbikilr4j9okcflkqzchk.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">erster, selbstgemachter Apfelsaft</p>
 
@@ -1180,7 +1263,7 @@ uv run check_reviews.py /path/to/your/docs
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/5mtnvdr43joek20kcpfa7jy6zu7jek8qh3prrcnz.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/5mtnvdr43joek20kcpfa7jy6zu7jek8qh3prrcnz.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Wilhelma</p>
 
@@ -1194,7 +1277,7 @@ uv run check_reviews.py /path/to/your/docs
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/fzklddcgch4b38qklcwv9z6bfzmsygmqnsxbyvoh.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/fzklddcgch4b38qklcwv9z6bfzmsygmqnsxbyvoh.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Schnitzelkönig West, Stuttgart</p>
 
@@ -1208,7 +1291,7 @@ uv run check_reviews.py /path/to/your/docs
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/pm12an2d0onxqggfhrnathlqwty9zfyfdqdhznj6.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/pm12an2d0onxqggfhrnathlqwty9zfyfdqdhznj6.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Heute mal Maronen</p>
 
@@ -1222,7 +1305,7 @@ uv run check_reviews.py /path/to/your/docs
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/utkwu1fpqpexrux4qdq3wuzpqfnloz6x3rjjso0k.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/utkwu1fpqpexrux4qdq3wuzpqfnloz6x3rjjso0k.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Goldglänzender Rosenkäfer, hat uns heute im Garten besucht. Wunderschöner grüngoldener Käfer.</p>
 
@@ -1274,7 +1357,7 @@ Connecting to host localhost &hellip;</p>
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/lzgfiu7pnkcndjiuhlylwnc78bmlxxwexh2ycomx.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/lzgfiu7pnkcndjiuhlylwnc78bmlxxwexh2ycomx.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Ikea</p>
 
@@ -1288,7 +1371,7 @@ Connecting to host localhost &hellip;</p>
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/tbmhy78o4xiaxw9q1fc5on0kpqlqdzczhy72wzdn.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/tbmhy78o4xiaxw9q1fc5on0kpqlqdzczhy72wzdn.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">kaum 100 Tage bis Lars Christbaum</p>
 
@@ -1325,7 +1408,7 @@ Connecting to host localhost &hellip;</p>
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/obvdrfoudjwvx7oduenjwj14kp2mob0rnbkmunfq.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/obvdrfoudjwvx7oduenjwj14kp2mob0rnbkmunfq.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Motorman Run 2025</p>
 
@@ -1339,8 +1422,8 @@ Connecting to host localhost &hellip;</p>
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/h6esefz651r6ulgakmkvjyg7kmsikeyrwfgz2czs.jpg" alt="">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/jmzva0uac5fakdb81hb7wawuadvg2blonebnlybu.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/h6esefz651r6ulgakmkvjyg7kmsikeyrwfgz2czs.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/jmzva0uac5fakdb81hb7wawuadvg2blonebnlybu.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Aus der Abteilung „der Klimawandel ist sehr real“ heute: Bananen blühen in Süddeutschland im Freien (Landkreis Heilbronn)</p>
 
@@ -1354,7 +1437,7 @@ Connecting to host localhost &hellip;</p>
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/g28b0qztbwuxltzpn4mvletnnzntmcxj6uzqzf2p.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/g28b0qztbwuxltzpn4mvletnnzntmcxj6uzqzf2p.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Sausia!! (Zucchini Kuchen)</p>
 
@@ -1368,7 +1451,7 @@ Connecting to host localhost &hellip;</p>
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/vs1udjlbjzpe4siuoob0r7kb43gzl4l1l2s2z1p1.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/vs1udjlbjzpe4siuoob0r7kb43gzl4l1l2s2z1p1.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Raubtierfütterung</p>
 
@@ -1382,7 +1465,7 @@ Connecting to host localhost &hellip;</p>
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/snpjltppttdpl0npcmwofuemwtoiqskaubkbyuai.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/snpjltppttdpl0npcmwofuemwtoiqskaubkbyuai.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Selbstgemachte Rouladen mit Kartoffelklösen</p>
 
@@ -1396,7 +1479,7 @@ Connecting to host localhost &hellip;</p>
 
 		<div class="e-content">
 			 <p>Aus der Abteilung KI Fails. Heute: Sprachen sind immer ein Problem</p>
-<p><img src="https://eu.uploads.micro.blog/63514/2025/image1.jpg" alt=""></p>
+<p><img src="https://www.the-sprawl.blog/uploads/2025/image1.jpg" alt=""></p>
 
 		</div>
 	  </div>
@@ -1430,7 +1513,7 @@ Connecting to host localhost &hellip;</p>
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/a4qdukr2khwl0xxsaagk4w6po360cqognkb7yeh3.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/a4qdukr2khwl0xxsaagk4w6po360cqognkb7yeh3.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Regenbogen</p>
 
@@ -1444,7 +1527,7 @@ Connecting to host localhost &hellip;</p>
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/121gdujccmzml6c7a3neidiyom5p3weaafky1ufn.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/121gdujccmzml6c7a3neidiyom5p3weaafky1ufn.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Spione sind noch immer unterwegs</p>
 
@@ -1488,7 +1571,7 @@ Connecting to host localhost &hellip;</p>
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/jt5088bs2rxxo6mwk0yyqccn6y3bcv4xg3jader1.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/jt5088bs2rxxo6mwk0yyqccn6y3bcv4xg3jader1.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Playmobil Land</p>
 
@@ -1502,7 +1585,7 @@ Connecting to host localhost &hellip;</p>
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/rmilmogwcxaz9uydlhziubcudg5wlpuecs9wwofk.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/rmilmogwcxaz9uydlhziubcudg5wlpuecs9wwofk.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Die Welle in Acryl</p>
 
@@ -1517,7 +1600,7 @@ Connecting to host localhost &hellip;</p>
 		<div class="e-content">
 			 <p>Hoftheater Öhringen. <a href="http://maps.apple.com/?ll=49.197531,9.503365">📍</a></p>
 <p>Gut essen + Geburtstag feiern</p>
-<p><img src="https://eu.uploads.micro.blog/63514/2025/image-20250614-175418-0f549d45.jpg" alt=""></p>
+<p><img src="https://www.the-sprawl.blog/uploads/2025/image-20250614-175418-0f549d45.jpg" alt=""></p>
 
 		</div>
 	  </div>
@@ -1554,7 +1637,7 @@ Connecting to host localhost &hellip;</p>
 		<div class="e-content">
 			 <p>Harry´s Kaffeerösterei. <a href="http://maps.apple.com/?ll=48.773480,9.177908">📍</a></p>
 <p>Erst mal Kaffee</p>
-<p><img src="https://eu.uploads.micro.blog/63514/2025/image-20250605-184539-093366b5.jpg" alt=""></p>
+<p><img src="https://www.the-sprawl.blog/uploads/2025/image-20250605-184539-093366b5.jpg" alt=""></p>
 
 		</div>
 	  </div>
@@ -1567,7 +1650,7 @@ Connecting to host localhost &hellip;</p>
 		<div class="e-content">
 			 <p>Harry´s Kaffeerösterei. <a href="http://maps.apple.com/?ll=48.773480,9.177908">📍</a></p>
 <p>Jetzt nen Kaffee</p>
-<p><img src="https://eu.uploads.micro.blog/63514/2025/image-20250605-171126-7689ca27.jpg" alt=""></p>
+<p><img src="https://www.the-sprawl.blog/uploads/2025/image-20250605-171126-7689ca27.jpg" alt=""></p>
 
 		</div>
 	  </div>
@@ -1580,7 +1663,7 @@ Connecting to host localhost &hellip;</p>
 		<div class="e-content">
 			 <p>Tialini. <a href="http://maps.apple.com/?ll=48.780355,9.177752">📍</a></p>
 <p>Der Stamm-Vietnamese hatte leider zu.</p>
-<p><img src="https://eu.uploads.micro.blog/63514/2025/image-20250605-151857-3ae2e4ae.jpg" alt="Pizza"></p>
+<p><img src="https://www.the-sprawl.blog/uploads/2025/image-20250605-151857-3ae2e4ae.jpg" alt="Pizza"></p>
 
 		</div>
 	  </div>
@@ -1592,7 +1675,7 @@ Connecting to host localhost &hellip;</p>
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/86p1pbhvsasjkfckn0p60aoubb7gxtrqio22q7xp.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/86p1pbhvsasjkfckn0p60aoubb7gxtrqio22q7xp.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Das ist sehr wahrscheinlich eine Edle Kugelspinne, siehe <a href="https://de.wikipedia.org/wiki/Edle_Kugelspinne" rel="external nofollow noopener" target="_blank">https://de.wikipedia.org/wiki/Edle_Kugelspinne</a><br />
 <br />
@@ -1642,7 +1725,7 @@ Nicht auf Madeira sondern in der Nähe von Heilbronn zuhause</p>
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/zkvw1ovqzomdwlnuje6acegjlq5vafresosy9qqg.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/zkvw1ovqzomdwlnuje6acegjlq5vafresosy9qqg.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Giersch</p>
 
@@ -1671,7 +1754,7 @@ Nicht auf Madeira sondern in der Nähe von Heilbronn zuhause</p>
 		<div class="e-content">
 			 <p>Die Dateien vom Illustrator enden auf .ai
 Irgendwann wird so ein Scheiss mal ein Menschenleben fordern und dann stehen wieder alle mit großen Augen da wie so etwas passieren konnte. Intelligenz mein Popo.</p>
-<p><img src="https://eu.uploads.micro.blog/63514/2025/image-20250511-171631-f43afb81.jpg" alt=""></p>
+<p><img src="https://www.the-sprawl.blog/uploads/2025/image-20250511-171631-f43afb81.jpg" alt=""></p>
 
 		</div>
 	  </div>
@@ -1685,7 +1768,7 @@ Irgendwann wird so ein Scheiss mal ein Menschenleben fordern und dann stehen wie
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/zrogcmwl6trzkrihprg71lf8hbgjlzfml7x07lea.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/zrogcmwl6trzkrihprg71lf8hbgjlzfml7x07lea.jpg" alt="">
                                             </div>
                     <p style="padding:10px;"></p>
 
@@ -1746,7 +1829,7 @@ Irgendwann wird so ein Scheiss mal ein Menschenleben fordern und dann stehen wie
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/1fcgdgaxrz2vrqoo2uysfrzpy9zebpjkzdwey6ex.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/1fcgdgaxrz2vrqoo2uysfrzpy9zebpjkzdwey6ex.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Mortadella e Pistachio</p>
 
@@ -1824,7 +1907,7 @@ if header :contains &quot;Chat-Version&quot; &quot;1.0&quot; {
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/qh6i7c42bu5rua1iohr5y2qsvf2b0ix3tnvz8bl7.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/qh6i7c42bu5rua1iohr5y2qsvf2b0ix3tnvz8bl7.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Beef Burger Brothers Zuffenhausen</p>
 
@@ -1867,7 +1950,7 @@ Solange ich mit der daraus entstehenden Unschärfe umgehen kann und mir bewusst 
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/8nown3hh1u2m0kqeaavyachfk696g0zaemqp4dkn.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/8nown3hh1u2m0kqeaavyachfk696g0zaemqp4dkn.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Määääöhhhh!</p>
 
@@ -1942,7 +2025,7 @@ Solange ich mit der daraus entstehenden Unschärfe umgehen kann und mir bewusst 
 
 		<div class="e-content">
 			 <div class="media-gallery">
-                                                    <img class="media-item" src="https://eu.uploads.micro.blog/63514/2025/u6wrt4aepkx3jg980rr10bcuv1zu0wcyp8rtntyb.jpg" alt="">
+                                                    <img class="media-item" src="https://www.the-sprawl.blog/uploads/2025/u6wrt4aepkx3jg980rr10bcuv1zu0wcyp8rtntyb.jpg" alt="">
                                             </div>
                     <p style="padding:10px;">Umlauts</p>
 
@@ -1971,7 +2054,7 @@ Solange ich mit der daraus entstehenden Unschärfe umgehen kann und mir bewusst 
 		<a href="https://www.the-sprawl.blog/2025/03/23/no-caption.html" class="u-url"><time class="dt-published" datetime="2025-03-23 18:35:32 &#43;0200">Mar 23, 2025</time></a>
 
 		<div class="e-content">
-			 <img id="rss_item_809462641292333141" src="https://eu.uploads.micro.blog/63514/2025/7xkw8tqocvps0qvloqnxlfdotokth057u4ii96ie.jpg" alt="">
+			 <img id="rss_item_809462641292333141" src="https://www.the-sprawl.blog/uploads/2025/7xkw8tqocvps0qvloqnxlfdotokth057u4ii96ie.jpg" alt="">
 			<p style="padding:10px;"></p>
 
 		</div>
@@ -2025,7 +2108,7 @@ Das Ding versucht sich in Humor um seine fehlschläge abzumildern</p>
 		<a href="https://www.the-sprawl.blog/2025/03/02/schneeglckchen.html" class="u-url"><time class="dt-published" datetime="2025-03-02 18:02:52 &#43;0200">Mar 2, 2025</time></a>
 
 		<div class="e-content">
-			 <img id="rss_item_801844273414225968" src="https://eu.uploads.micro.blog/63514/2025/axtcbtwpsirrg50g2l8m6cmwxbrzgxwnhoodvonl.jpg" alt="">
+			 <img id="rss_item_801844273414225968" src="https://www.the-sprawl.blog/uploads/2025/axtcbtwpsirrg50g2l8m6cmwxbrzgxwnhoodvonl.jpg" alt="">
 			<p style="padding:10px;">Schneeglöckchen</p>
 
 		</div>
@@ -2050,7 +2133,7 @@ Auf dieser landen nach und nach Orte, an denen ich ebenfalls zu finden/erreichen
 
 		<div class="e-content">
 			 <p>Maulwürfe</p>
-<img src="https://eu.uploads.micro.blog/63514/2025/11059192192d4b1cbf15d8991fdabb91.jpg" width="600" height="450" alt="">
+<img src="uploads/2025/11059192192d4b1cbf15d8991fdabb91.jpg" width="600" height="450" alt="">
 
 		</div>
 	  </div>
@@ -2062,7 +2145,7 @@ Auf dieser landen nach und nach Orte, an denen ich ebenfalls zu finden/erreichen
 
 		<div class="e-content">
 			 <p>selbstgemachtes Börek</p>
-<img src="https://eu.uploads.micro.blog/63514/2025/9bd3737db4114aebae93e713b3c123cd.jpg" width="450" height="600" alt="">
+<img src="uploads/2025/9bd3737db4114aebae93e713b3c123cd.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2074,7 +2157,7 @@ Auf dieser landen nach und nach Orte, an denen ich ebenfalls zu finden/erreichen
 
 		<div class="e-content">
 			 <p>Linsen mit Spätzle</p>
-<img src="https://eu.uploads.micro.blog/63514/2025/e472b56bb7ed464491b1cfcdb1c108b6.jpg" width="450" height="600" alt="">
+<img src="uploads/2025/e472b56bb7ed464491b1cfcdb1c108b6.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2122,7 +2205,7 @@ Auf dieser landen nach und nach Orte, an denen ich ebenfalls zu finden/erreichen
 
 		<div class="e-content">
 			 <p>Mäusekuchen</p>
-<img src="https://eu.uploads.micro.blog/63514/2025/209e2fbdc77649b59760cd1df8acc9cf.jpg" width="450" height="600" alt="">
+<img src="uploads/2025/209e2fbdc77649b59760cd1df8acc9cf.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2133,7 +2216,7 @@ Auf dieser landen nach und nach Orte, an denen ich ebenfalls zu finden/erreichen
 		<a href="https://www.the-sprawl.blog/2025/01/29/frhling.html" class="u-url"><time class="dt-published" datetime="2025-01-29 14:21:19 &#43;0200">Jan 29, 2025</time></a>
 
 		<div class="e-content">
-			 <img id="rss_item_790192107574411265" src="https://eu.uploads.micro.blog/63514/2025/m0l3hxbucdxxflggawbsyoflk7tc5gi92blmqqo7.jpg" alt="">
+			 <img id="rss_item_790192107574411265" src="https://www.the-sprawl.blog/uploads/2025/m0l3hxbucdxxflggawbsyoflk7tc5gi92blmqqo7.jpg" alt="">
 			<p style="padding:10px;">Frühling</p>
 
 		</div>
@@ -2174,7 +2257,7 @@ Und jedes Mal kräht ein kleines Mainzelmännchen in meinem Kopf: Aaaaaabendscha
 
 		<div class="e-content">
 			 <p>Wages &amp; AI</p>
-<img src="https://eu.uploads.micro.blog/63514/2025/8c41d32ebca24a0cac018dcbf635f577.jpg" width="600" height="487" alt="">
+<img src="uploads/2025/8c41d32ebca24a0cac018dcbf635f577.jpg" width="600" height="487" alt="">
 
 		</div>
 	  </div>
@@ -2186,7 +2269,7 @@ Und jedes Mal kräht ein kleines Mainzelmännchen in meinem Kopf: Aaaaaabendscha
 
 		<div class="e-content">
 			 <p>Das Thema Konzerte in Stuttgart ist echt ein Trauerspiel. Könnte ich bitte Röhre, RoFa und Co. zurückhaben</p>
-<img src="https://eu.uploads.micro.blog/63514/2025/9e06ee5287c74cc9b30d96c1098fd9ef.png" width="277" height="600" alt="">
+<img src="uploads/2025/9e06ee5287c74cc9b30d96c1098fd9ef.png" width="277" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2198,7 +2281,7 @@ Und jedes Mal kräht ein kleines Mainzelmännchen in meinem Kopf: Aaaaaabendscha
 
 		<div class="e-content">
 			 <p>BRZRKR Bloodlines</p>
-<img src="https://eu.uploads.micro.blog/63514/2025/2da48d5945c04b7393ab0408df59268e.jpg" width="450" height="600" alt="">
+<img src="uploads/2025/2da48d5945c04b7393ab0408df59268e.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2224,7 +2307,7 @@ Widerspricht im Grunde allem was ich am offenen Web liebe. Aber ist wahrscheinli
 		<a href="https://www.the-sprawl.blog/2025/01/21/breaking-bad-x-bug.html" class="u-url"><time class="dt-published" datetime="2025-01-21 21:20:29 &#43;0200">Jan 21, 2025</time></a>
 
 		<div class="e-content">
-			 <p><img src="https://eu.uploads.micro.blog/63514/2025/e935990490.jpg" />Skyler's past mistakes come back to haunt her. Gus takes action to thwart his rivals. Jesse seeks Walt's help, with mixed results.</p>
+			 <p><img src="uploads/2025/e935990490.jpg" />Skyler's past mistakes come back to haunt her. Gus takes action to thwart his rivals. Jesse seeks Walt's help, with mixed results.</p>
 
 		</div>
 	  </div>
@@ -2236,7 +2319,7 @@ Widerspricht im Grunde allem was ich am offenen Web liebe. Aber ist wahrscheinli
 
 		<div class="e-content">
 			 <p>Filzen</p>
-<img src="https://eu.uploads.micro.blog/63514/2025/4fea1f952b7b4faab4dfc045e0630743.jpg" width="450" height="600" alt="">
+<img src="uploads/2025/4fea1f952b7b4faab4dfc045e0630743.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2247,7 +2330,7 @@ Widerspricht im Grunde allem was ich am offenen Web liebe. Aber ist wahrscheinli
 		<a href="https://www.the-sprawl.blog/2025/01/21/artgerechte-haltung.html" class="u-url"><time class="dt-published" datetime="2025-01-21 19:59:41 &#43;0200">Jan 21, 2025</time></a>
 
 		<div class="e-content">
-			 <img id="rss_item_787378158249042015" src="https://eu.uploads.micro.blog/63514/2025/yhx78kynrkjuwjwtjfd8m3qf7yqtxcxhtcosrymn.jpg" alt="">
+			 <img id="rss_item_787378158249042015" src="https://www.the-sprawl.blog/uploads/2025/yhx78kynrkjuwjwtjfd8m3qf7yqtxcxhtcosrymn.jpg" alt="">
 			<p style="padding:10px;">Artgerechte Haltung</p>
 
 		</div>
@@ -2281,7 +2364,7 @@ Widerspricht im Grunde allem was ich am offenen Web liebe. Aber ist wahrscheinli
 		<a href="https://www.the-sprawl.blog/2025/01/19/landleben.html" class="u-url"><time class="dt-published" datetime="2025-01-19 15:28:01 &#43;0200">Jan 19, 2025</time></a>
 
 		<div class="e-content">
-			 <img id="rss_item_786585015538294865" src="https://eu.uploads.micro.blog/63514/2025/94pakk5nwv65arsx9rca1hvpjrf01qcikvathakv.jpg" alt="">
+			 <img id="rss_item_786585015538294865" src="https://www.the-sprawl.blog/uploads/2025/94pakk5nwv65arsx9rca1hvpjrf01qcikvathakv.jpg" alt="">
 			<p style="padding:10px;">Landleben</p>
 
 		</div>
@@ -2293,7 +2376,7 @@ Widerspricht im Grunde allem was ich am offenen Web liebe. Aber ist wahrscheinli
 		<a href="https://www.the-sprawl.blog/2025/01/13/pizza-frisch-vom-grill.html" class="u-url"><time class="dt-published" datetime="2025-01-13 21:09:18 &#43;0200">Jan 13, 2025</time></a>
 
 		<div class="e-content">
-			 <img id="rss_item_784496573249753139" src="https://eu.uploads.micro.blog/63514/2025/nexrpvyzupbva8yrihli2ygwrqc3ahgxcpspxtfh.jpg" alt="">
+			 <img id="rss_item_784496573249753139" src="https://www.the-sprawl.blog/uploads/2025/nexrpvyzupbva8yrihli2ygwrqc3ahgxcpspxtfh.jpg" alt="">
 			<p style="padding:10px;">Pizza frisch vom Grill</p>
 
 		</div>
@@ -2328,7 +2411,7 @@ Widerspricht im Grunde allem was ich am offenen Web liebe. Aber ist wahrscheinli
 
 		<div class="e-content">
 			 <p>Mittagessen 2025-01-10</p>
-<img src="https://eu.uploads.micro.blog/63514/2025/a7bf4e857d4244b280c0c0020c8d838c.jpg" width="450" height="600" alt="">
+<img src="uploads/2025/a7bf4e857d4244b280c0c0020c8d838c.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2463,7 +2546,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Peak Barock</p>
-<img src="https://eu.uploads.micro.blog/63514/2023/6543a54b2a874733a8fa440f7e3005f8.jpg" width="600" height="450" alt="">
+<img src="uploads/2023/6543a54b2a874733a8fa440f7e3005f8.jpg" width="600" height="450" alt="">
 
 		</div>
 	  </div>
@@ -2487,7 +2570,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Peak Allgäu</p>
-<img src="https://eu.uploads.micro.blog/63514/2023/ab2207c7fe2b40058bd0980a6910cd91.jpg" width="450" height="600" alt="">
+<img src="uploads/2023/ab2207c7fe2b40058bd0980a6910cd91.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2499,7 +2582,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Peak Schwaben</p>
-<img src="https://eu.uploads.micro.blog/63514/2023/bddb08d550124ba79a0406cafc70d9ce.jpg" width="450" height="600" alt="">
+<img src="uploads/2023/bddb08d550124ba79a0406cafc70d9ce.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2512,7 +2595,7 @@ Und das im Januar :-(</p>
 		<div class="e-content">
 			 <p>Schlachtplatte ist gelandet</p>
 <p>#besen #volz #oedheim</p>
-<img src="https://eu.uploads.micro.blog/63514/2023/image.jpg" width="450" height="600" alt="">
+<img src="uploads/2023/image.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2536,7 +2619,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Andere fliegen in die Karibik für diesen Anblick</p>
-<img src="https://eu.uploads.micro.blog/63514/2023/baaa61b8f3c044d88fe35a9c280c60d3.jpg" width="450" height="600" alt="">
+<img src="uploads/2023/baaa61b8f3c044d88fe35a9c280c60d3.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2548,7 +2631,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Sonnenbrand und blauer Himmel am 1. Obtober</p>
-<img src="https://eu.uploads.micro.blog/63514/2023/55f4f959766d440bac0683f49dfd1430.jpg" width="450" height="600" alt="">
+<img src="uploads/2023/55f4f959766d440bac0683f49dfd1430.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2560,7 +2643,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Gedeck zur Erkältungssasion</p>
-<img src="https://eu.uploads.micro.blog/63514/2023/b408e3f2e68748b996993191e3b74284.jpg" width="450" height="600" alt="Aperol Spritz und Prospan">
+<img src="uploads/2023/b408e3f2e68748b996993191e3b74284.jpg" width="450" height="600" alt="Aperol Spritz und Prospan">
 
 		</div>
 	  </div>
@@ -2572,7 +2655,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Feigen aus dem eigenen Garten</p>
-<p><img src="https://eu.uploads.micro.blog/63514/2023/5235e5710aca4c99909d1703e0d1274a.jpg" width="450" height="600" alt=""><img src="https://eu.uploads.micro.blog/63514/2023/e64764560ca8490eb88566f6ed9d8941.jpg" width="450" height="600" alt=""><img src="https://eu.uploads.micro.blog/63514/2023/fd482484cb9a4da2bd44d5e7bef26590.jpg" width="450" height="600" alt=""></p>
+<p><img src="uploads/2023/5235e5710aca4c99909d1703e0d1274a.jpg" width="450" height="600" alt=""><img src="uploads/2023/e64764560ca8490eb88566f6ed9d8941.jpg" width="450" height="600" alt=""><img src="uploads/2023/fd482484cb9a4da2bd44d5e7bef26590.jpg" width="450" height="600" alt=""></p>
 
 		</div>
 	  </div>
@@ -2584,7 +2667,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Motorman-Run 2023</p>
-<p><video controls="controls" playsinline="playsinline" src="https://eu.uploads.micro.blog/63514/2023/6a5acd5bc29343e2bd7fa8763cdcc18b.mov" width="360" height="640" poster="https://www.the-sprawl.blog/uploads/2023/poster.png" preload="none"></video></p>
+<p><video controls="controls" playsinline="playsinline" src="https://www.the-sprawl.blog/uploads/2023/6a5acd5bc29343e2bd7fa8763cdcc18b.mov" width="360" height="640" poster="https://www.the-sprawl.blog/uploads/2023/poster.png" preload="none"></video></p>
 
 		</div>
 	  </div>
@@ -2596,7 +2679,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>2023-09-06 just a cold</p>
-<img src="https://eu.uploads.micro.blog/63514/2023/6abf6518c14f42a796269ae28451326a.jpg" width="450" height="600" alt="">
+<img src="uploads/2023/6abf6518c14f42a796269ae28451326a.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2608,7 +2691,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Rotwild</p>
-<img src="https://eu.uploads.micro.blog/63514/2023/8b88546548ee463891906dcb59ddb599.jpg" width="450" height="600" alt="">
+<img src="uploads/2023/8b88546548ee463891906dcb59ddb599.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2620,7 +2703,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Luchs</p>
-<img src="https://eu.uploads.micro.blog/63514/2023/cbb6a0b9049149879c4935feb4a1d470.jpg" width="450" height="600" alt="">
+<img src="uploads/2023/cbb6a0b9049149879c4935feb4a1d470.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2643,7 +2726,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>My new ride</p>
-<img src="https://eu.uploads.micro.blog/63514/2023/0613467546574438a1db37fb5b3aaace.jpg" width="450" height="600" alt="">
+<img src="uploads/2023/0613467546574438a1db37fb5b3aaace.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2655,7 +2738,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Ich bin dann mal entspannt</p>
-<img src="https://eu.uploads.micro.blog/63514/2023/fb0eb8a074.jpg" width="450" height="600" alt="">
+<img src="uploads/2023/fb0eb8a074.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2667,7 +2750,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Weidenbohrer, auch beeindruckend großes Tier. Auf einem Baum hätte ich ihn wohl nicht entdeckt.</p>
-<img src="https://eu.uploads.micro.blog/63514/2023/9faba6e0a5.jpg" width="450" height="600" alt="">
+<img src="uploads/2023/9faba6e0a5.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2679,7 +2762,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Braunschwarze Rossameise, war heute hier unterwegs auf der Suche nach einer neuen Heimat. Beeindruckend groß und recht flink.</p>
-<img src="https://eu.uploads.micro.blog/63514/2023/d209de152a.jpeg" width="450" height="600" alt="Braunschwarze Rossameise">
+<img src="uploads/2023/d209de152a.jpeg" width="450" height="600" alt="Braunschwarze Rossameise">
 
 		</div>
 	  </div>
@@ -2691,7 +2774,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Poppy fields (oil harvesting)</p>
-<p><img src="https://eu.uploads.micro.blog/63514/2023/5bf25f3e8b.jpg" width="600" height="450" alt=""><img src="https://eu.uploads.micro.blog/63514/2023/6c75534240.jpg" width="600" height="219" alt=""><img src="https://eu.uploads.micro.blog/63514/2023/9612811d6d.jpg" width="600" height="450" alt=""></p>
+<p><img src="uploads/2023/5bf25f3e8b.jpg" width="600" height="450" alt=""><img src="uploads/2023/6c75534240.jpg" width="600" height="219" alt=""><img src="uploads/2023/9612811d6d.jpg" width="600" height="450" alt=""></p>
 
 		</div>
 	  </div>
@@ -2703,7 +2786,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Erdbeer-Tiramisu</p>
-<img src="https://eu.uploads.micro.blog/63514/2023/f1ed79e4a5.jpg" width="450" height="600" alt="">
+<img src="uploads/2023/f1ed79e4a5.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2715,7 +2798,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Was kostet es zwei mal drei Sitze zu 39€ zu reservieren. Hint, der Flug geht NICHT zum Mars</p>
-<img src="https://eu.uploads.micro.blog/63514/2023/826d2b34ec.png" width="600" height="51" alt="">
+<img src="uploads/2023/826d2b34ec.png" width="600" height="51" alt="">
 
 		</div>
 	  </div>
@@ -2727,7 +2810,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Hornissen Königin auf der Suche nach einem Bau</p>
-<img src="https://eu.uploads.micro.blog/63514/2023/905c5bbe7b.jpg" width="450" height="600" alt="">
+<img src="uploads/2023/905c5bbe7b.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2739,7 +2822,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Magnolia in the snow</p>
-<img src="https://eu.uploads.micro.blog/63514/2023/0125a09c9b.jpg" width="450" height="600" alt="">
+<img src="uploads/2023/0125a09c9b.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2764,7 +2847,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Schneeglöckchen fields forever</p>
-<p><img src="https://eu.uploads.micro.blog/63514/2023/7defc043dd.jpg" width="450" height="600" alt=""><img src="https://eu.uploads.micro.blog/63514/2023/2e1a7d7899.jpg" width="450" height="600" alt=""></p>
+<p><img src="uploads/2023/7defc043dd.jpg" width="450" height="600" alt=""><img src="uploads/2023/2e1a7d7899.jpg" width="450" height="600" alt=""></p>
 
 		</div>
 	  </div>
@@ -2776,7 +2859,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Besser ist das wohl</p>
-<img src="https://eu.uploads.micro.blog/63514/2023/d4732903eb.jpg" width="277" height="600" alt="">
+<img src="uploads/2023/d4732903eb.jpg" width="277" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2788,7 +2871,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Spring is coming</p>
-<img src="https://eu.uploads.micro.blog/63514/2023/9704e41fe3.jpg" width="450" height="600" alt="">
+<img src="uploads/2023/9704e41fe3.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2800,7 +2883,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Schnitzel!!</p>
-<img src="https://eu.uploads.micro.blog/63514/2023/45eb59d757.jpg" width="450" height="600" alt="">
+<img src="uploads/2023/45eb59d757.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2823,7 +2906,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>The spying birds are back</p>
-<img src="https://eu.uploads.micro.blog/63514/2023/d6c150284a.jpg" width="450" height="600" alt="">
+<img src="uploads/2023/d6c150284a.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2835,7 +2918,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Style, I haz it</p>
-<img src="https://eu.uploads.micro.blog/63514/2023/d6186498c9.jpg" width="450" height="600" alt="">
+<img src="uploads/2023/d6186498c9.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2847,7 +2930,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Being in IT sux, I want to create something with my own hands</p>
-<img src="https://eu.uploads.micro.blog/63514/2023/113f06c20b.jpg" width="450" height="600" alt="">
+<img src="uploads/2023/113f06c20b.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2859,7 +2942,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Snow Surprise</p>
-<img src="https://eu.uploads.micro.blog/63514/2023/4eb8e1b665.jpg" width="600" height="450" alt="">
+<img src="uploads/2023/4eb8e1b665.jpg" width="600" height="450" alt="">
 
 		</div>
 	  </div>
@@ -2871,7 +2954,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Soooo verfressen</p>
-<img src="https://eu.uploads.micro.blog/63514/2023/fa1abecf69.jpg" width="450" height="600" alt="">
+<img src="uploads/2023/fa1abecf69.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2883,7 +2966,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Sooo flauschig</p>
-<img src="https://eu.uploads.micro.blog/63514/2023/4a13763d37.jpg" width="450" height="600" alt="">
+<img src="uploads/2023/4a13763d37.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2895,7 +2978,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Weltbeste Ehefrau hat Fajitas gemacht</p>
-<img src="https://eu.uploads.micro.blog/63514/2023/9238da7169.jpg" width="450" height="600" alt="">
+<img src="uploads/2023/9238da7169.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2907,7 +2990,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Hatschi</p>
-<img src="https://eu.uploads.micro.blog/63514/2023/ffefaaf978.jpg" width="450" height="600" alt="">
+<img src="uploads/2023/ffefaaf978.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2930,7 +3013,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Plätzchen</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/53f71dec92.jpg" width="450" height="600" alt="">
+<img src="uploads/2022/53f71dec92.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -2953,7 +3036,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Cherries blooming in November</p>
-<p><img src="https://eu.uploads.micro.blog/63514/2022/fca1489521.jpg" width="450" height="600" alt=""><img src="https://eu.uploads.micro.blog/63514/2022/c090ef1e40.jpg" width="450" height="600" alt=""></p>
+<p><img src="uploads/2022/fca1489521.jpg" width="450" height="600" alt=""><img src="uploads/2022/c090ef1e40.jpg" width="450" height="600" alt=""></p>
 
 		</div>
 	  </div>
@@ -2976,7 +3059,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Frau hat Frühstücksbrötchen gebacken. der Hammer!</p>
-<p><img src="https://eu.uploads.micro.blog/63514/2022/9d64266329.jpg" width="450" height="600" alt=""><img src="https://eu.uploads.micro.blog/63514/2022/9ff3f9ebb7.jpg" width="450" height="600" alt=""></p>
+<p><img src="uploads/2022/9d64266329.jpg" width="450" height="600" alt=""><img src="uploads/2022/9ff3f9ebb7.jpg" width="450" height="600" alt=""></p>
 
 		</div>
 	  </div>
@@ -2988,7 +3071,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>I love trees</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/b71e6c0d0f.jpg" width="450" height="600" alt="">
+<img src="uploads/2022/b71e6c0d0f.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -3000,7 +3083,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Quittengelee by Ehefrau</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/74f7956d9a.jpg" width="450" height="600" alt="">
+<img src="uploads/2022/74f7956d9a.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -3023,7 +3106,7 @@ Und das im Januar :-(</p>
 
 		<div class="e-content">
 			 <p>Es gibt tatsächlich asoziale Vollspacken, die auf einem Spielplatz die Schaukeln klauen</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/bf439e798c.jpg" width="450" height="600" alt="">
+<img src="uploads/2022/bf439e798c.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -3066,7 +3149,7 @@ Kind: und das will ich auch, schreibs auf meinen Wunschzettel!</p>
 
 		<div class="e-content">
 			 <p>HP? Alles klar?</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/d17f1bfd56.jpg" width="450" height="600" alt="">
+<img src="uploads/2022/d17f1bfd56.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -3100,7 +3183,7 @@ Kind: und das will ich auch, schreibs auf meinen Wunschzettel!</p>
 
 		<div class="e-content">
 			 <p>Noch mehr Glitter</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/b713194574.jpg" width="450" height="600" alt="">
+<img src="uploads/2022/b713194574.jpg" width="450" height="600" alt="">
 
 		</div>
 	  </div>
@@ -3124,7 +3207,7 @@ Kind: und das will ich auch, schreibs auf meinen Wunschzettel!</p>
 
 		<div class="e-content">
 			 <p>Nein? Doch! Oh!</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/d050120697.jpg" width="600" height="392" alt="" />
+<img src="uploads/2022/d050120697.jpg" width="600" height="392" alt="" />
 
 		</div>
 	  </div>
@@ -3136,7 +3219,7 @@ Kind: und das will ich auch, schreibs auf meinen Wunschzettel!</p>
 
 		<div class="e-content">
 			 <p>Heaven</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/3a16042c68.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/3a16042c68.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3148,9 +3231,9 @@ Kind: und das will ich auch, schreibs auf meinen Wunschzettel!</p>
 
 		<div class="e-content">
 			 <p>Some Roquefort</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/8c31b7ea2a.jpg" width="600" height="800" alt="" style="height: auto;" class="sunlit_image" />
+<img src="uploads/2022/8c31b7ea2a.jpg" width="600" height="800" alt="" style="height: auto;" class="sunlit_image" />
 <p>and some homemade strawberry jam</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/76905a0e46.jpg" width="600" height="800" alt="" style="height: auto;" class="sunlit_image" />
+<img src="uploads/2022/76905a0e46.jpg" width="600" height="800" alt="" style="height: auto;" class="sunlit_image" />
 
 		</div>
 	  </div>
@@ -3173,7 +3256,7 @@ Kind: und das will ich auch, schreibs auf meinen Wunschzettel!</p>
 
 		<div class="e-content">
 			 <p>Knock Knock</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/2a2780541d.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/2a2780541d.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3185,7 +3268,7 @@ Kind: und das will ich auch, schreibs auf meinen Wunschzettel!</p>
 
 		<div class="e-content">
 			 <p>Deutschlands Steuerrecht für Anfänger</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/163911a984.jpg" width="372" height="600" alt="" />
+<img src="uploads/2022/163911a984.jpg" width="372" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3197,7 +3280,7 @@ Kind: und das will ich auch, schreibs auf meinen Wunschzettel!</p>
 
 		<div class="e-content">
 			 <p>Prozentrechnung, so wichtig wie ein kleines Rauchfleisch</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/0d9c1035c8.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/0d9c1035c8.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3209,7 +3292,7 @@ Kind: und das will ich auch, schreibs auf meinen Wunschzettel!</p>
 
 		<div class="e-content">
 			 <p>Klein, fein, mein</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/adc004c438.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/adc004c438.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3221,7 +3304,7 @@ Kind: und das will ich auch, schreibs auf meinen Wunschzettel!</p>
 
 		<div class="e-content">
 			 <p>Dreschhalle Neuenstadt</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/982fe2e29e.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/982fe2e29e.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3235,7 +3318,7 @@ Kind: und das will ich auch, schreibs auf meinen Wunschzettel!</p>
 
 		<div class="e-content">
 			 <p>Diesmal in der Dreschhalle in Neuenstadt</p>
-<audio controls="controls" src="https://eu.uploads.micro.blog/63514/2022/9c879df2e6.mp3" preload="metadata" />
+<audio controls="controls" src="https://www.the-sprawl.blog/uploads/2022/9c879df2e6.mp3" preload="metadata" />
 
 		</div>
 	  </div>
@@ -3269,7 +3352,7 @@ Kind: und das will ich auch, schreibs auf meinen Wunschzettel!</p>
 
 		<div class="e-content">
 			 <p>Wilhelma</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/5974a4876c.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/5974a4876c.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3292,7 +3375,7 @@ Kind: und das will ich auch, schreibs auf meinen Wunschzettel!</p>
 
 		<div class="e-content">
 			 <p>SPAM gets crazier every day</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/903b833729.png" width="277" height="600" alt="" />
+<img src="uploads/2022/903b833729.png" width="277" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3345,7 +3428,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Regentropfen</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/f6d06c5e78.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/f6d06c5e78.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3357,7 +3440,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>SPAM jetzt auch für die Zielgruppe alte Hacker</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/ac371f45c7.png" width="277" height="600" alt="" />
+<img src="uploads/2022/ac371f45c7.png" width="277" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3369,7 +3452,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Montagsstress</p>
-<p><img src="https://eu.uploads.micro.blog/63514/2022/e3a3ab08b7.jpg" width="450" height="600" alt="" /><img src="https://eu.uploads.micro.blog/63514/2022/bfd5c87b28.jpg" width="450" height="600" alt="" /></p>
+<p><img src="uploads/2022/e3a3ab08b7.jpg" width="450" height="600" alt="" /><img src="uploads/2022/bfd5c87b28.jpg" width="450" height="600" alt="" /></p>
 
 		</div>
 	  </div>
@@ -3381,7 +3464,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>I’m se Hardcore</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/c9fc8d5034.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/c9fc8d5034.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3404,7 +3487,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Man kümmert sich um mich</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/20aed9f59d.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/20aed9f59d.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3416,7 +3499,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Uffa</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/ef8e8eab9a.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/ef8e8eab9a.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3439,7 +3522,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Döner-Calzone, both kinds of music</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/9e18570022.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/9e18570022.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3529,7 +3612,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>5 years and counting</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/e69833e542.jpg" width="480" height="600" alt="" />
+<img src="uploads/2022/e69833e542.jpg" width="480" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3541,7 +3624,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>IT security explained</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/abacdb8e39.jpg" width="600" height="329" alt="" />
+<img src="uploads/2022/abacdb8e39.jpg" width="600" height="329" alt="" />
 
 		</div>
 	  </div>
@@ -3575,7 +3658,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>My back hurts</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/984bbd2be4.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/984bbd2be4.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3587,7 +3670,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Please, ship me one pice</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/bb9f7960d6.jpg" width="600" height="331" alt="" />
+<img src="uploads/2022/bb9f7960d6.jpg" width="600" height="331" alt="" />
 
 		</div>
 	  </div>
@@ -3599,7 +3682,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Rouladen mit selbstgemachten Spätzle</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/9de51d6ce5.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/9de51d6ce5.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3611,7 +3694,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Cheesecake deluxe</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/3b72cff84a.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/3b72cff84a.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3634,7 +3717,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Die Frau hat mal wieder gezaubert, selbstgemachte Erdbeer-Marmelade. Ich würde sie ja sowieso schon jederzeit wieder heiraten jetzt um so mehr!</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/9b85297113.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/9b85297113.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3668,7 +3751,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Return to the jungle</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/cc9177ce08.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/cc9177ce08.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3715,7 +3798,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Stern Spieß, so geil</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/3550e39b91.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/3550e39b91.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3738,7 +3821,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Shoes from hell</p>
-<p><video controls="controls" playsinline="playsinline" src="https://eu.uploads.micro.blog/63514/2022/d41da13bc2.mov" width="360" height="640" poster="https://www.the-sprawl.blog/uploads/2022/80c432518f.png" preload="none"></video></p>
+<p><video controls="controls" playsinline="playsinline" src="https://www.the-sprawl.blog/uploads/2022/d41da13bc2.mov" width="360" height="640" poster="https://www.the-sprawl.blog/uploads/2022/80c432518f.png" preload="none"></video></p>
 
 		</div>
 	  </div>
@@ -3761,7 +3844,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>frische Erdbeer-Marmelade aus dem Thermo, der Hammer</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/0f1814e43b.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/0f1814e43b.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3773,7 +3856,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Wenn eine gute Freundin einfach mal eine leckere Lasagne vorbeibringt. Einfach der Hammer.</p>
-<p><img src="https://eu.uploads.micro.blog/63514/2022/7e9a8a9b76.jpg" width="450" height="600" alt="" /><img src="https://eu.uploads.micro.blog/63514/2022/b33fac249f.jpg" width="450" height="600" alt="" /></p>
+<p><img src="uploads/2022/7e9a8a9b76.jpg" width="450" height="600" alt="" /><img src="uploads/2022/b33fac249f.jpg" width="450" height="600" alt="" /></p>
 
 		</div>
 	  </div>
@@ -3785,7 +3868,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Gift I got from my doctor</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/027b0012d5.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/027b0012d5.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3797,7 +3880,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Tiny flower</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/a83f53217f.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/a83f53217f.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3820,7 +3903,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Kampen, wir kommen</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/477e070c18.jpg" width="600" height="337" alt="" />
+<img src="uploads/2022/477e070c18.jpg" width="600" height="337" alt="" />
 
 		</div>
 	  </div>
@@ -3832,7 +3915,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Bei nem Käseblatt gut aufgehoben</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/4d7221c30f.jpg" width="600" height="204" alt="" />
+<img src="uploads/2022/4d7221c30f.jpg" width="600" height="204" alt="" />
 
 		</div>
 	  </div>
@@ -3855,7 +3938,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Bee sting, two days later. Probably a zombie bee</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/772d12d1e2.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/772d12d1e2.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3867,7 +3950,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Two seconds later, while posting the book cover, a bee stung me.</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/ca5bccd22c.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/ca5bccd22c.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3879,7 +3962,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Something to calm down</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/12dd5227b8.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/12dd5227b8.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3902,7 +3985,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>42, what else?</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/55cd403068.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/55cd403068.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3914,7 +3997,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Kaktus oder Igel</p>
-<p><img src="https://eu.uploads.micro.blog/63514/2022/a2e9bd95af.jpg" width="450" height="600" alt="" /><img src="https://eu.uploads.micro.blog/63514/2022/babcdb9da9.jpg" width="450" height="600" alt="" /></p>
+<p><img src="uploads/2022/a2e9bd95af.jpg" width="450" height="600" alt="" /><img src="uploads/2022/babcdb9da9.jpg" width="450" height="600" alt="" /></p>
 
 		</div>
 	  </div>
@@ -3926,7 +4009,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Ostern ist immer</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/5c6fd8e9cd.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/5c6fd8e9cd.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3938,7 +4021,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Speed</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/5a6707fa9b.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/5a6707fa9b.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3950,7 +4033,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Kaiserschmarren, so gut</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/2c39825920.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/2c39825920.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3962,7 +4045,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Dropping all restrictions works like intended</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/5b43fdc697.png" width="277" height="600" alt="" />
+<img src="uploads/2022/5b43fdc697.png" width="277" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3974,7 +4057,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Butterfly</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/e5a77e97f2.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/e5a77e97f2.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3986,7 +4069,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Strawberries</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/07e2dfee0b.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/07e2dfee0b.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -3998,7 +4081,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Isopods</p>
-<p><img src="https://eu.uploads.micro.blog/63514/2022/2cbf43d60e.jpg" width="450" height="600" alt="" /><img src="https://eu.uploads.micro.blog/63514/2022/499f1b8182.jpg" width="450" height="600" alt="" /></p>
+<p><img src="uploads/2022/2cbf43d60e.jpg" width="450" height="600" alt="" /><img src="uploads/2022/499f1b8182.jpg" width="450" height="600" alt="" /></p>
 
 		</div>
 	  </div>
@@ -4010,7 +4093,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>HAM</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/d8572e22cd.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/d8572e22cd.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4022,7 +4105,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Hacked</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/f6980c7d99.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/f6980c7d99.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4034,7 +4117,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Sheep</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/5ac05e73ef.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/5ac05e73ef.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4046,7 +4129,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Feuerbach</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/d2f2fcbb43.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/d2f2fcbb43.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4058,7 +4141,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Gotta love them</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/7b86f2cd10.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/7b86f2cd10.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4070,7 +4153,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Kaffee geht immer</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/cc0219d7da.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/cc0219d7da.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4082,7 +4165,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Ja, Meer in Stuttgart wäre klasse</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/9647a76432.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/9647a76432.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4094,7 +4177,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Aftermath</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/a56dae231c.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/a56dae231c.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4106,7 +4189,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Frohe Ostern!</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/fb917f86a5.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/fb917f86a5.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4118,7 +4201,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Ant-leg for lunch?</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/edaf90ad5d.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/edaf90ad5d.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4130,7 +4213,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Oh my god!!</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/2c31b44538.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/2c31b44538.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4142,7 +4225,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Bunny</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/8b67e864dc.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/8b67e864dc.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4168,7 +4251,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Who you gonna call?</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/fa3d22aaa3.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/fa3d22aaa3.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4208,7 +4291,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Agent reactivated</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/5db71dee02.png" width="277" height="600" alt="" />
+<img src="uploads/2022/5db71dee02.png" width="277" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4220,7 +4303,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Shrimplets</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/ec5496bc90.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/ec5496bc90.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4232,7 +4315,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Party-Pferd by Kind</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/b7dca8c67f.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/b7dca8c67f.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4244,7 +4327,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Newest addition to the office</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/f91d1eb90c.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/f91d1eb90c.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4269,7 +4352,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Kantapper, Kantapper</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/599bb29a8f.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/599bb29a8f.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4294,7 +4377,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Old vs. New</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/6bd55875c0.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/6bd55875c0.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4306,7 +4389,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Fire in the sky</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/96f085657c.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/96f085657c.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4318,7 +4401,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Stunning</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/cd398d1cae.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/cd398d1cae.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4330,7 +4413,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Hope they don’t dig too deep</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/7fef0ecf54.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/7fef0ecf54.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4342,7 +4425,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Bunny</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/59a6ad51a7.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/59a6ad51a7.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4354,7 +4437,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>The void</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/ee8fbebdc6.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/ee8fbebdc6.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4366,7 +4449,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Cordon Bleu</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/e043a0140f.jpg" width="600" height="450" alt="" />
+<img src="uploads/2022/e043a0140f.jpg" width="600" height="450" alt="" />
 
 		</div>
 	  </div>
@@ -4378,7 +4461,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Bei vielen Menschen heißt das dass die Intelligenz um 700% steigt. Bonuslacher für alle, die Prozentrechnung verstanden haben.</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/0b5da79e03.jpg" width="600" height="584" alt="" />
+<img src="uploads/2022/0b5da79e03.jpg" width="600" height="584" alt="" />
 
 		</div>
 	  </div>
@@ -4401,7 +4484,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>German Summer incoming</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/f6a03b492a.jpg" width="277" height="600" alt="" />
+<img src="uploads/2022/f6a03b492a.jpg" width="277" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4413,7 +4496,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Nightwatch</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/ab821e0443.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/ab821e0443.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4436,7 +4519,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Magnolia</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/7aaf778a3c.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/7aaf778a3c.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4448,7 +4531,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Why the long face</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/f61725685f.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/f61725685f.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4460,7 +4543,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Mechanic in training</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/438597ea08.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/438597ea08.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4472,7 +4555,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Mimosas</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/a710ff18db.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/a710ff18db.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4484,7 +4567,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Sternmagnolie</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/dbaec4c9bf.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/dbaec4c9bf.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4496,7 +4579,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Falcons and Chicken</p>
-<p><img src="https://eu.uploads.micro.blog/63514/2022/3beedf34a7.jpg" width="450" height="600" alt="" /><img src="https://eu.uploads.micro.blog/63514/2022/1122c6f2a1.jpg" width="450" height="600" alt="" /><img src="https://eu.uploads.micro.blog/63514/2022/5bae3674e9.jpg" width="450" height="600" alt="" /></p>
+<p><img src="uploads/2022/3beedf34a7.jpg" width="450" height="600" alt="" /><img src="uploads/2022/1122c6f2a1.jpg" width="450" height="600" alt="" /><img src="uploads/2022/5bae3674e9.jpg" width="450" height="600" alt="" /></p>
 
 		</div>
 	  </div>
@@ -4508,7 +4591,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>I‘m at my happy place</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/7148d1cb72.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/7148d1cb72.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4520,7 +4603,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Breakfast at Brettach</p>
-<p><img src="https://eu.uploads.micro.blog/63514/2022/3a321b8276.jpg" width="450" height="600" alt="" /><img src="https://eu.uploads.micro.blog/63514/2022/3e01b48b1d.jpg" width="450" height="600" alt="" /></p>
+<p><img src="uploads/2022/3a321b8276.jpg" width="450" height="600" alt="" /><img src="uploads/2022/3e01b48b1d.jpg" width="450" height="600" alt="" /></p>
 
 		</div>
 	  </div>
@@ -4532,7 +4615,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Lost</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/762cabf2a9.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/762cabf2a9.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4544,7 +4627,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Spaceship just arrived</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/29f197c8be.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/29f197c8be.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4556,7 +4639,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Geoff Tate - live at Wizemann - Stuttgart</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/211ae9f1fb.jpg" width="600" height="450" alt="" />
+<img src="uploads/2022/211ae9f1fb.jpg" width="600" height="450" alt="" />
 
 		</div>
 	  </div>
@@ -4568,7 +4651,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Tunnel</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/2cd29fe752.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/2cd29fe752.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4591,7 +4674,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>What are you sinking about?</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/97065c4f8d.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/97065c4f8d.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4616,7 +4699,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Pizza from scratch</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/5d97084604.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/5d97084604.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4628,7 +4711,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Princess food</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/fc15249cdf.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/fc15249cdf.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4640,7 +4723,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Homeoffice is hard</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/68057e25b4.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/68057e25b4.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4665,7 +4748,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Forsythie</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/677380a7b8.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/677380a7b8.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4677,7 +4760,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>local park</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/fc04907d07.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/fc04907d07.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4689,7 +4772,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Kleiner Wasserschaden</p>
-<p><img src="https://eu.uploads.micro.blog/63514/2022/9a8da51b81.jpg" width="450" height="600" alt="" /><img src="https://eu.uploads.micro.blog/63514/2022/3fa628504d.jpg" width="450" height="600" alt="" /></p>
+<p><img src="uploads/2022/9a8da51b81.jpg" width="450" height="600" alt="" /><img src="uploads/2022/3fa628504d.jpg" width="450" height="600" alt="" /></p>
 
 		</div>
 	  </div>
@@ -4701,7 +4784,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Mondays are the best days</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/12195d1bc4.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/12195d1bc4.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
@@ -4713,7 +4796,7 @@ EXPO Plaza  </p>
 
 		<div class="e-content">
 			 <p>Just a common bitch</p>
-<img src="https://eu.uploads.micro.blog/63514/2022/543d9338d3.jpg" width="450" height="600" alt="" />
+<img src="uploads/2022/543d9338d3.jpg" width="450" height="600" alt="" />
 
 		</div>
 	  </div>
