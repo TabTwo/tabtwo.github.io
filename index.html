@@ -24,6 +24,166 @@
 	
 	  <div class="h-entry">
 		
+			<h1><a href="https://www.the-sprawl.blog/2026/08/09/things-you-cant-regenerate-go.html">Things you can&#39;t regenerate go quietly wrong</a></h1>
+		
+
+		<a href="https://www.the-sprawl.blog/2026/08/09/things-you-cant-regenerate-go.html" class="u-url"><time class="dt-published" datetime="2026-08-09 17:49:52 &#43;0200">Aug 9, 2026</time></a>
+
+		<div class="e-content">
+			 <p>I started the day wanting one small thing: a Forgejo Action that uploads a built
+folder to a YunoHost <code>my_webapp</code> over SFTP. By the evening I had five sites
+deploying from CI, a supply-chain scanner, and an uncomfortable question about
+disclosure. That sounds like scope creep. It wasn&rsquo;t, quite — the same failure
+mode kept surfacing in different costumes, and it&rsquo;s worth naming.</p>
+<p><strong>Anything you can&rsquo;t regenerate will eventually be wrong, and it will be wrong
+silently.</strong></p>
+<h2 id="the-image-that-lied-for-six-hours">The image that lied for six hours</h2>
+<p>Three of my satire sites carried &ldquo;GmbH&rdquo; in the company name. I&rsquo;m a private
+individual; <code>GmbH</code> is a protected legal designation in Germany. Removing it was
+mechanical: fourteen occurrences in one repo, five in each of the others, page
+titles, OG metadata, <code>security.txt</code>, footer copyright. Build, verify, deploy,
+done by lunchtime.</p>
+<p>Except every link shared to LinkedIn or Mastodon still said GmbH, because the
+Open Graph image is a <strong>PNG</strong>, and grep doesn&rsquo;t read pixels. When I finally
+looked at it, there it was in 64px grey.</p>
+<p>The interesting part isn&rsquo;t that I missed it. It&rsquo;s <em>why</em> it stayed wrong: that
+image was committed by hand in the repo&rsquo;s initial commit, with no generator
+anywhere. Nobody could regenerate it — not me, not anyone. It could only ever
+be replaced by someone opening a design tool and matching the original by eye.
+So it sat there, contradicting the site it belonged to.</p>
+<p>I sampled the original&rsquo;s palette out of the committed PNG (<code>#131c2f</code> navy,
+indigo-600 stripe), wrote a 100-line script that reproduces it, and now
+<code>make og</code> rebuilds it. The other two sites still have hand-made images. Their
+artwork happens to be correct today. That&rsquo;s not the same as being maintainable.</p>
+<h2 id="the-impressum-welded-into-markup">The Impressum welded into markup</h2>
+<p>Same shape, different file. The shared Impressum for all my domains was a
+single <code>index.html</code> with the legal text embedded in <code>&lt;p&gt;</code> tags. Legal text
+changes — that&rsquo;s not a hypothetical, it&rsquo;s the <em>point</em> of an Impressum. And
+changing it meant editing HTML.</p>
+<p>So the text became data: <code>content/impressum.toml</code>, an ordered array of sections,
+the covered domains as a list. A build script renders it through a template.
+Twenty-four tests assert that <strong>every covered domain and every section body in
+full</strong> survives into the output, so a template refactor can&rsquo;t silently publish a
+shorter Impressum than the one that was reviewed.</p>
+<p>Two template bugs surfaced immediately, both from autoescaping: my injected
+<code>&lt;br&gt;</code> was being escaped into visible <code>&amp;lt;br&amp;gt;</code>, and the credit links were
+rendering as literal markup. Neither would have been obvious by eye. That&rsquo;s the
+argument for tests on a legal document — not correctness of the <em>words</em>, which
+is a lawyer&rsquo;s job, but proof that the words that were approved are the words
+being served.</p>
+<p>While I was in there I found the domains list didn&rsquo;t include the three satire
+sites, all of which link their footers to that exact Impressum. They pointed at
+a document that, by its own text, didn&rsquo;t cover them.</p>
+<h2 id="the-deploys-that-never-deleted-anything">The deploys that never deleted anything</h2>
+<p>The action shipped in <code>copy</code> mode first, deliberately: copy never deletes, so a
+broken build can&rsquo;t wipe a live site. Safe, and I flipped all five sites to
+<code>sync</code> later the same day.</p>
+<p>The first sync run failed on three sites. That was the ceiling working — I&rsquo;d set
+<code>max-delete: 10</code> as a tripwire, and it reported that each web root held more
+than ten files the current build no longer produced. Months of accumulated
+<code>_next/static/</code> chunks, because copy mode never removes anything and every
+Next.js build emits freshly hashed filenames.</p>
+<p>Then I got it wrong in the other direction. Ten is <em>also</em> too low for steady
+state, for exactly the same reason: a routine content change rewrites a dozen
+chunk names, so an ordinary deploy legitimately deletes a dozen files. I raised
+three sites to 60 and — of course — forgot the fourth. It failed on the next
+framework upgrade, which rewrote every chunk at once.</p>
+<p>Worth being honest about what the ceiling actually buys: <code>--max-delete</code> is
+<strong>not</strong> atomic. rclone deletes up to the limit and <em>then</em> aborts. It&rsquo;s a
+tripwire, not a wall. The real guard is the script refusing to sync from an
+empty source directory.</p>
+<h2 id="the-watcher-that-said-nothing-moved">The watcher that said &ldquo;nothing moved&rdquo;</h2>
+<p>Two days ago I wrote about building a small cross-forge watcher, because
+<a href="https://www.the-sprawl.blog/2026/08/07/eleven-tickets-three-trackers-and.html">a maintainer answered one of my reports at 05:50 and nothing told
+me</a>. I
+called the failure mode &ldquo;I acted on stale information without knowing it.&rdquo;</p>
+<p>Today it reported <code>13 watched · nothing moved</code>. A maintainer&rsquo;s review had been
+sitting on one of my pull requests since the previous evening.</p>
+<p>The cause is one line:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">comments<span style="color:#f92672">=</span>int(payload<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;comments&#34;</span>, <span style="color:#ae81ff">0</span>)),
+</code></pre></div><p>On a GitHub <strong>pull request</strong>, <code>comments</code> counts only issue-style comments.
+Inline review feedback lives in a separate field, <code>review_comments</code>, which my
+watcher never reads. So the single most important signal on an upstream
+contribution — a maintainer actually reviewing your code — was structurally
+invisible.</p>
+<p>Five of the thirteen watched items are pull requests. Two carry review comments
+it can&rsquo;t see.</p>
+<p>A watcher that stays quiet while a maintainer waits on you is worse than no
+watcher, because it manufactures confidence. I wrote a tool to fix a problem
+and gave the problem a place to hide.</p>
+<h2 id="tags-you-cant-audit">Tags you can&rsquo;t audit</h2>
+<p>The supply-chain half of the day started with a number: each site pulls <strong>425
+npm packages</strong>. <code>npm audit</code> reported 11 vulnerabilities. <code>osv-scanner</code> reported
+<strong>64 across 11 packages</strong> — six times as many, with fixed versions and a
+<code>(dev)</code> marker that <code>npm audit</code> doesn&rsquo;t give you.</p>
+<p>Most of them don&rsquo;t matter here, and it&rsquo;s worth saying why rather than pretending
+otherwise. These are static exports: the deploy uploads plain HTML, CSS and JS.
+There&rsquo;s no server-side runtime, so a &ldquo;request smuggling in rewrites&rdquo; advisory
+has nothing to smuggle into. Gating CI on <code>high</code> would have reded every build on
+sixty mostly-unreachable findings, and everyone would have learned to ignore the
+job inside a week.</p>
+<p>The findings that <em>did</em> matter were the reachable ones: Next.js itself, a
+production dependency, 28 findings at max CVSS 8.6, with fixes available. One
+upgrade took the repo from 64 findings to 23.</p>
+<p>But the real exposure isn&rsquo;t the packages a visitor might reach. It&rsquo;s that the
+build job executes 425 third-party packages <strong>while holding a live SFTP
+password</strong> that can write to the web root. Two of those packages run install
+scripts. Any of them could gain one tomorrow.</p>
+<p>Which brings us to the part I&rsquo;d been doing wrong all along, in my own repos.
+Every action was pinned to a <strong>mutable tag</strong> — <code>actions/checkout@v4</code>,
+<code>setup-node@v4</code>, my own <code>@v1</code>. That&rsquo;s precisely how Trivy was compromised in
+March: TeamPCP force-pushed malicious code to <strong>76 of 77 version tags</strong> in
+<code>aquasecurity/trivy-action</code> and all seven in <code>setup-trivy</code>. Anyone pinned to a
+tag received it. Anyone pinned to a commit SHA did not.</p>
+<p>I&rsquo;d been applying lockfile discipline to 425 npm packages and none at all to the
+handful of actions that run <em>before</em> them, with more privilege. Everything is
+pinned to a SHA now.</p>
+<p>The uncomfortable detail from that incident isn&rsquo;t the breach — it&rsquo;s that Aqua
+handled disclosure well, rotated their secrets, and it <strong>still</strong> didn&rsquo;t hold,
+because the rotation wasn&rsquo;t atomic and the attacker kept access to the newly
+issued credentials. Competent response, correct instinct, wrong sequencing. If
+you write a rotation playbook, the first step isn&rsquo;t &ldquo;rotate the secrets.&rdquo; It&rsquo;s
+&ldquo;revoke the ability to mint new ones.&rdquo;</p>
+<h2 id="the-policy-that-landed-the-same-afternoon">The policy that landed the same afternoon</h2>
+<p>Forgejo merged a change today requiring contributors to confirm conformance with
+their <a href="https://codeberg.org/forgejo/governance/src/branch/main/AIAgreement.md">AI
+Agreement</a>,
+explicitly to reduce &ldquo;PRs authored by coding agents.&rdquo; It&rsquo;s stricter than most:
+no AI-generated works of authorship at all, and <strong>all communication</strong> —
+including comments on issues and pull requests — must not be AI-generated.
+Translation and spellcheck excepted.</p>
+<p>Hours earlier I had posted a reply on a YunoHost pull request that was drafted
+by an AI agent, under my name, with no disclosure.</p>
+<p>Strictly, no rule was broken. Forgejo&rsquo;s agreement binds Forgejo&rsquo;s repositories;
+that comment went to YunoHost, which has no published policy — I looked. But
+&ldquo;no rule against it&rdquo; and &ldquo;fine&rdquo; aren&rsquo;t the same thing, and the maintainer on the
+other end is a human who reasonably assumed he was talking to one.</p>
+<p>I don&rsquo;t have a settled answer yet. What I have is a ticket, which is at least
+better than deciding it differently every time by accident. The default I&rsquo;m
+inclined toward: draft with the machine, review and post in your own words,
+check the project&rsquo;s policy before contributing. That&rsquo;s compatible with every
+policy I found, including Forgejo&rsquo;s, without needing an exception.</p>
+<h2 id="the-thread">The thread</h2>
+<p>The og.png, the Impressum, the accumulated chunks, the watcher, the mutable
+tags — same shape every time. Something existed that could only be <em>replaced</em>,
+never <em>rebuilt</em>: an image nobody could regenerate, text welded into markup, a
+remote directory nobody mirrored, a signal nobody fetched, a tag that could move
+under you.</p>
+<p>None of it announced itself. The site said one thing and its link previews said
+another for six hours. The watcher said &ldquo;nothing moved&rdquo; while someone waited.
+That&rsquo;s the tax on unreproducible artifacts, and it&rsquo;s paid in silence.</p>
+<p>The fix is boring and always the same: make the thing regenerable, then check
+that what you&rsquo;re serving matches what generated it. <code>make og</code>. <code>make build</code>.
+A test asserting <code>dist/</code> isn&rsquo;t stale. A pinned SHA instead of a tag.</p>
+<p>Nine issues opened today. The one I&rsquo;d fix first isn&rsquo;t any of the security work —
+it&rsquo;s the watcher, because a tool that lies to you quietly is worse than the
+manual process it replaced.</p>
+
+		</div>
+	  </div>
+	
+	  <div class="h-entry">
+		
 			<h1><a href="https://www.the-sprawl.blog/2026/08/07/eleven-tickets-three-trackers-and.html">Eleven tickets, three trackers, and a file that remembers</a></h1>
 		
 
