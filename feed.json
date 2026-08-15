@@ -7,6 +7,22 @@
 	"items": [
 		
 			{
+				"id": "http://tabtwo.micro.blog/2026/08/15/finished-reading-the-phoenix-project.html",
+				
+				"content_html": "<img src=\"https://cdn.micro.blog/books/9781942788294/cover.jpg\" align=\"left\" class=\"microblog_book\" style=\"max-width: 60px; margin-right: 20px; margin-top: 0px; padding-top: 0px;\">\n<p>Finished reading: <a href=\"https://micro.blog/books/9781942788294\">The Phoenix Project</a> by Gene Kim 📚</p>\n<p>A lot of times I could relate to the protagonists life in IT. Altogether the story was a bit to good to be true and it feels like a lot of parts are missing. Still, especially managers should read this book and even with the current cloud and AI hype it contains a lot of truths about how IT could work.</p>\n",
+				"content_text": "<img src=\"https://cdn.micro.blog/books/9781942788294/cover.jpg\" align=\"left\" class=\"microblog_book\" style=\"max-width: 60px; margin-right: 20px; margin-top: 0px; padding-top: 0px;\">\n\nFinished reading: [The Phoenix Project](https://micro.blog/books/9781942788294) by Gene Kim 📚\n\nA lot of times I could relate to the protagonists life in IT. Altogether the story was a bit to good to be true and it feels like a lot of parts are missing. Still, especially managers should read this book and even with the current cloud and AI hype it contains a lot of truths about how IT could work. \n",
+				"date_published": "2026-08-15T21:04:10+02:00",
+				"url": "https://www.the-sprawl.blog/2026/08/15/finished-reading-the-phoenix-project.html"
+			},
+			{
+				"id": "http://tabtwo.micro.blog/2026/08/14/roter-panda-aka-firefox-im.html",
+				
+				"content_html": "<p>Roter Panda aka Firefox im Tierpark Nürnberg</p>\n<p><img src=\"uploads/2026/bb417de0224b4f338d03c1c4d855e3cb.jpg\" width=\"450\" height=\"600\" alt=\"\"><img src=\"uploads/2026/31ff42d55de041069fb05016916d6485.jpg\" width=\"450\" height=\"600\" alt=\"\"><img src=\"uploads/2026/dfaa5dce44ac43778f787875bd7faa79.jpg\" width=\"450\" height=\"600\" alt=\"\"></p>\n",
+				"content_text": "Roter Panda aka Firefox im Tierpark Nürnberg \n\n<img src=\"uploads/2026/bb417de0224b4f338d03c1c4d855e3cb.jpg\" width=\"450\" height=\"600\" alt=\"\"><img src=\"uploads/2026/31ff42d55de041069fb05016916d6485.jpg\" width=\"450\" height=\"600\" alt=\"\"><img src=\"uploads/2026/dfaa5dce44ac43778f787875bd7faa79.jpg\" width=\"450\" height=\"600\" alt=\"\">\n",
+				"date_published": "2026-08-14T14:59:50+02:00",
+				"url": "https://www.the-sprawl.blog/2026/08/14/roter-panda-aka-firefox-im.html"
+			},
+			{
 				"id": "http://tabtwo.micro.blog/2026/08/13/playmobil-land-bei-nrnberg.html",
 				
 				"content_html": "<div class=\"media-gallery\">\n                                                    <img class=\"media-item\" src=\"https://www.the-sprawl.blog/uploads/2026/8kjghidq4c1qoqpi1xrzyn44zrlko8buirobjqjj.jpg\" alt=\"\">\n                                            </div>\n                    <p style=\"padding:10px;\">Playmobil Land bei Nürnberg</p>\n",
@@ -153,8 +169,8 @@
 			{
 				"id": "http://tabtwo.micro.blog/2026/06/28/irgendeine-bremse-mit-riesigen-orangenen.html",
 				
-				"content_html": "<div class=\"media-gallery\">\n                                                    <img class=\"media-item\" src=\"https://eu.uploads.micro.blog/63514/2026/ue1laniiyvcqserfehzz290gpixpajikmimqhxbz.jpg\" alt=\"\">\n                                            </div>\n                    <p style=\"padding:10px;\">Irgendeine Bremse mit riesigen orangenen Augen.</p>\n",
-				"content_text": "<div class=\"media-gallery\">\n                                                    <img class=\"media-item\" src=\"https://eu.uploads.micro.blog/63514/2026/ue1laniiyvcqserfehzz290gpixpajikmimqhxbz.jpg\" alt=\"\">\n                                            </div>\n                    <p style=\"padding:10px;\">Irgendeine Bremse mit riesigen orangenen Augen.</p>\n",
+				"content_html": "<div class=\"media-gallery\">\n                                                    <img class=\"media-item\" src=\"https://www.the-sprawl.blog/uploads/2026/ue1laniiyvcqserfehzz290gpixpajikmimqhxbz.jpg\" alt=\"\">\n                                            </div>\n                    <p style=\"padding:10px;\">Irgendeine Bremse mit riesigen orangenen Augen.</p>\n",
+				"content_text": "<div class=\"media-gallery\">\n                                                    <img class=\"media-item\" src=\"https://www.the-sprawl.blog/uploads/2026/ue1laniiyvcqserfehzz290gpixpajikmimqhxbz.jpg\" alt=\"\">\n                                            </div>\n                    <p style=\"padding:10px;\">Irgendeine Bremse mit riesigen orangenen Augen.</p>\n",
 				"date_published": "2026-06-28T14:02:38+02:00",
 				"url": "https://www.the-sprawl.blog/2026/06/28/irgendeine-bremse-mit-riesigen-orangenen.html"
 			},
